@@ -147,3 +147,8 @@ function enemyPonChoice()  // 👤 Enemy Choice
         enemyPonName.innerHTML = 'Ratigueya:';
     }
 }
+
+if (playerAtack == 'fuego 🔥' && enemyAtack == 'tierra')
+{
+    
+}
