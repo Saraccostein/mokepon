@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <!-- Info -->
+        <meta name= "author"      content="Marco Saracco"                                       />
+        <meta name= "description" content="Colecciona monstruos y vive intensas batallas"       />
+        <meta name= "keywords"    content="mokepon monstruos bolsillo"                          />
+
+        <meta name= "viewport"             content="width=device-width, initial-scale=1.0"      />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"                                    />
+
+        <!-- Social Media -->
+        <meta property="og:title"       content="Mokepon"                                       />
+        <meta property="og:description" content="Colecciona monstruos y vive intensas batallas" />
+
+        <!-- Fonts -->
+        <link rel="preconnect"    href="https://api.fonts.coollabs.io" crossorigin              />
+
+        <!-- Custome -->
+        <link rel="shortcut icon" href=""                              type="img/svg"           />
+        <link rel="stylesheet"    href="styles.css"                    type="text/css"          />
+
+        <title>Mokepon</title>
+
+    </head>
+    <body>
+
+        <H1>Mokepon</H1>
+
+            <section id="choosePon">
+                <h2>¡Elige tu mokepon!</h2>
+
+                <label for="hipodoge">Hipodoge</label>
+                <input type="radio" name="myPon" id="hipodoge"/>
+
+                <label for="capipepo">Capipepo</label>
+                <input type="radio" name="myPon" id="capipepo"/>
+
+                <label for="ratigueya">ratigueya</label>
+                <input type="radio" name="myPon" id="ratigueya"/>
+
+                <button id="choosePonButton">Seleccionar</button>
+            </section>
+
+            <section id="chooseAtack">
+
+                <h2>Selecciona tu ataque</h2>
+
+                <div id="playerPonLife">
+                    <!--🐾--> <span id="playerPon"> </span> <br>
+                    <!--💗--> <span class="playerPonHeart" id="playerPonHeart-1"> <img src="assets/heart.svg" type="img/svg"/> </span>
+                    <!--💗--> <span class="playerPonHeart" id="playerPonHeart-2"> <img src="assets/heart.svg" type="img/svg"/> </span>
+                    <!--💗--> <span class="playerPonHeart" id="playerPonHeart-3"> <img src="assets/heart.svg" type="img/svg"/> </span>
+                </div>
+
+                <div id="enemyPonLife">
+                    <!--🐾--> <span id="enemyPon"> </span> <br>
+                    <!--💗--> <span class="enemyPonHeart" id="enemyPonHeart-1"> <img src="assets/heart.svg" type="img/svg"/> </span>
+                    <!--💗--> <span class="enemyPonHeart" id="enemyPonHeart-2"> <img src="assets/heart.svg" type="img/svg"/> </span>
+                    <!--💗--> <span class="enemyPonHeart" id="enemyPonHeart-3"> <img src="assets/heart.svg" type="img/svg"/> </span>
+                </div>
+
+                <div>
+                    <!--🔥--> <button class="elementButton" id="fire">  <img src="assets/fire.svg"  type="img/svg"/> </button>
+                    <!--💧--> <button class="elementButton" id="water"> <img src="assets/water.svg" type="img/svg"/> </button>
+                    <!--🌰--> <button class="elementButton" id="earth"> <img src="assets/earth.svg" type="img/svg"/> </button>
+                </div>
+
+            </section>
+
+            <section id="messages">
+            </section>
+
+            <section id="reboot">
+                <button>¿Volver a jugar?</button>
+            </section>
+
+            <script src="js/game.js"></script>
+    </body>
+</html>
+</head>

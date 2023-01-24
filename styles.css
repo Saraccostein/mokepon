@@ -1,0 +1,14 @@
+:root {
+    /* Colors */
+    --background-black: hsla(231, 15%, 18%, 1);
+    --purple: hsla(265, 89%, 78%, 1);
+}
+
+img {
+    width: 2rem;
+}
+
+body {
+    background-color: var(--background-black);
+    color: var(--purple);
+}
