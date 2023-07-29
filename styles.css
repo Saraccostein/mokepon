@@ -1,20 +1,38 @@
 :root {
     /* Colors */
-    --background-black: hsla(231, 15%, 18%, 1);
-    --purple: hsla(265, 89%, 78%, 1);
-}
 
+    --amethyst:         hsla(269,  94%, 64%,   1);
+    --primary_purple:   hsla(265,  89%, 78%,   1);
+    --background_dark:  hsla(231,  15%, 18%,   1);
+    --black:            hsla(230,  14%, 25%,   1);
+    --gray:             hsla(232,  14%, 31%,   1);
+    --deep_blue:        hsla(225,  27%, 51%,   1);
+    --blue:             hsla(228,  82%, 61%,   1);
+    --cyan:             hsla(191,  97%, 77%,   1);
+    --green:            hsla(165,  72%, 56%,   1);
+    --red:              hsla(360,  61%, 63%,   1);
+    --red_heart:        hsla(360, 100%, 74%,   1);
+    --yellow:           hsla( 65,  92%, 76%,   1);
+    --white:            hsla( 60,  30%, 96%,   1);
+}
 body {
-    background-color: var(--background-black);
-    color: var(--purple);
+    background-color: var(--background_dark);
     font-family: "Whyte", sans-serif;
+    color: var(--white);
 }
-
 main {
     margin: auto;
     width: 80%;
 }
-
 img {
     width: 2rem;
+}
+h1 {
+    color: var(--primary_purple);
+}
+h2 {
+    color: var(--green);
+}
+input {
+    display: none;
 }

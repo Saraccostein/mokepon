@@ -26,7 +26,7 @@ function makeMessage()
     let gameLog = document.getElementById('messages');
 
     let logText = document.createElement('p');
-    logText.innerHTML = '___' + '<br>' + 'Has atacado con ' + playerAtack + '<br>' + 'El enemigo atacó con ' + enemyAtack;
+    logText.innerHTML = 'Has atacado con ' + playerAtack + '<br>' + 'El enemigo atacó con ' + enemyAtack;
 
     gameLog.appendChild(logText);
 }
@@ -103,6 +103,38 @@ function playerPonChoice() // 👩🏻 Player choice
     let hipodogeInput = document.getElementById('hipodoge');
     let capipepoInput = document.getElementById('capipepo');
     let ratigueyaInput = document.getElementById('ratigueya');
+
+    let hipodogeLabel = document.getElementById('hipodoge_label');
+    let capipepoLabel = document.getElementById('capipepo_label');
+    let ratigueyaLabel = document.getElementById('ratigueya_label');
+
+    if (hipodogeInput.checked == true) {
+        hipodogeLabel.style.fontWeight = 'bold';
+        capipepoLabel.style.fontWeight = 'normal';
+        ratigueyaLabel.style.fontWeight = 'normal';
+
+        hipodogeLabel.style.color = 'var(--yellow)';
+        capipepoLabel.style.color = 'var(--white)';
+        ratigueyaLabel.style.color = 'var(--white)';
+
+    } else if (capipepoInput.checked == true) {
+        hipodogeLabel.style.fontWeight = 'normal';
+        capipepoLabel.style.fontWeight = 'bold';
+        ratigueyaLabel.style.fontWeight = 'normal';
+
+        hipodogeLabel.style.color = 'var(--white)';
+        capipepoLabel.style.color = 'var(--yellow)';
+        ratigueyaLabel.style.color = 'var(--white)';
+
+    } else if (ratigueyaInput.checked == true) {
+        hipodogeLabel.style.fontWeight = 'normal';
+        capipepoLabel.style.fontWeight = 'normal';
+        ratigueyaLabel.style.fontWeight = 'bold';
+
+        hipodogeLabel.style.color = 'var(--white)';
+        capipepoLabel.style.color = 'var(--white)';
+        ratigueyaLabel.style.color = 'var(--yellow)';
+    }
 
     /* Player Mokepon Choice */
     let playerPonName = document.getElementById('playerPon');
