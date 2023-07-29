@@ -1,0 +1,53 @@
+/* Whyte */
+@font-face {
+    font-family: "Whyte";
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src:url("Whyte/Whyte-Regular.woff2") format("woff2"), 
+        url("Whyte/Whyte-Regular.woff") format("woff");
+}
+@font-face {
+    font-family: "Whyte";
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src:url("Whyte/Whyte-Bold.woff2") format("woff2"),
+        url("Whyte/Whyte-Bold.woff") format("woff");
+}
+
+/* Whyte Inktrap */
+@font-face {
+    font-family: "WhyteInktrap";
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src:url("WhyteInktrap/WhyteInktrap-Regular.woff2") format("woff2"), 
+        url("WhyteInktrap/WhyteInktrap-Regular.woff") format("woff");
+}
+@font-face {
+    font-family: "WhyteInktrap";
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src:url("WhyteInktrap/WhyteInktrap-Bold.woff2") format("woff2"), 
+        url("WhyteInktrap/WhyteInktrap-Bold.woff") format("woff");
+}
+@font-face {
+    font-family: "WhyteInktrap";
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+    src:url("WhyteInktrap/WhyteInktrap-BoldItalic.woff2") format("woff2"), 
+        url("WhyteInktrap/WhyteInktrap-BoldItalic.woff2") format("woff");
+}
+
+/* WhyteInktrapSemi-Mono */
+@font-face {
+    font-family: "WhyteInktrapSemi-Mono";
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src:url("WhyteInktrapSemi-Mono/WhyteInktrapSemi-Mono-Regular.woff2") format("woff2"), 
+        url("WhyteInktrapSemi-Mono/WhyteInktrapSemi-Mono-Regular.woff") format("woff");
+}

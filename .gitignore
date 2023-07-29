@@ -1,0 +1,6 @@
+# VScodium
+.vscode
+
+# Fonts
+*.woff
+*.woff2

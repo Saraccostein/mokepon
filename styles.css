@@ -4,11 +4,17 @@
     --purple: hsla(265, 89%, 78%, 1);
 }
 
-img {
-    width: 2rem;
-}
-
 body {
     background-color: var(--background-black);
     color: var(--purple);
+    font-family: "Whyte", sans-serif;
+}
+
+main {
+    margin: auto;
+    width: 80%;
+}
+
+img {
+    width: 2rem;
 }
