@@ -36,3 +36,14 @@ h2 {
 input {
     display: none;
 }
+button {
+    background-color: var(--black);
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    color: var(--cyan);
+}
+button:hover {
+    background-color: var(--blue);
+    color: var(--white);
+}

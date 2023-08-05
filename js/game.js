@@ -21,14 +21,30 @@ function start()
     earthInput.addEventListener('click', earthAtack);
 }
 
-function makeMessage() 
+function battle() 
 {
     let gameLog = document.getElementById('messages');
 
-    let logText = document.createElement('p');
-    logText.innerHTML = 'Has atacado con ' + playerAtack + '<br>' + 'El enemigo atacó con ' + enemyAtack;
-
+    let logText = document.getElementById('result');
     gameLog.appendChild(logText);
+
+    if (playerAtack == 'fuego 🔥' && enemyAtack == 'agua 💧') {
+        winnerMessage = '🏆 Haz ganado';
+    
+    } else if (playerAtack == 'agua 💧' && enemyAtack == 'tierra 🌰') {
+        winnerMessage = '🏆 Haz ganado';
+    
+    } else if (playerAtack == 'tierra 🌰' && enemyAtack == 'fuego 🔥') {
+        winnerMessage = '🏆 Haz ganado';
+    
+    } else if (playerAtack == enemyAtack) {
+        winnerMessage = '🎌 Ha sido un empate';
+    
+    } else {
+        winnerMessage = '😞 Ganó tu oponente';
+    }
+
+    logText.innerHTML = '👩🏻 Has atacado con ' + playerAtack + '<br>' + '👤 El oponente atacó con ' + enemyAtack + '<br>' + winnerMessage;
 }
 
 function random(max, min)
@@ -89,11 +105,42 @@ function enemyAtackChoice()
         enemyAtack = 'tierra 🌰';
     }
 
-    makeMessage();
+    battle();
 }
 
 /* 🐾 Pon Choice */
 var selectionConfirmation = false;
+
+let hipodogeLabel = document.getElementById('hipodoge_label');
+let capipepoLabel = document.getElementById('capipepo_label');
+let ratigueyaLabel = document.getElementById('ratigueya_label');
+
+hipodogeLabel.addEventListener('click', hipodogeFocus);
+capipepoLabel.addEventListener('click', capipepoFocus);
+ratigueyaLabel.addEventListener('click', ratigueyaFocus);
+
+function hipodogeFocus()
+{
+    hipodogeLabel.style.color = 'var(--yellow)';
+    capipepoLabel.style.color = 'var(--white)';
+    ratigueyaLabel.style.color = 'var(--white)';
+}
+
+function capipepoFocus()
+{
+
+    hipodogeLabel.style.color = 'var(--white)';
+    capipepoLabel.style.color = 'var(--yellow)';
+    ratigueyaLabel.style.color = 'var(--white)';
+}
+
+function ratigueyaFocus()
+{
+
+    hipodogeLabel.style.color = 'var(--white)';
+    capipepoLabel.style.color = 'var(--white)';
+    ratigueyaLabel.style.color = 'var(--yellow)';
+}
 
 function playerPonChoice() // 👩🏻 Player choice
 {
@@ -103,38 +150,6 @@ function playerPonChoice() // 👩🏻 Player choice
     let hipodogeInput = document.getElementById('hipodoge');
     let capipepoInput = document.getElementById('capipepo');
     let ratigueyaInput = document.getElementById('ratigueya');
-
-    let hipodogeLabel = document.getElementById('hipodoge_label');
-    let capipepoLabel = document.getElementById('capipepo_label');
-    let ratigueyaLabel = document.getElementById('ratigueya_label');
-
-    if (hipodogeInput.checked == true) {
-        hipodogeLabel.style.fontWeight = 'bold';
-        capipepoLabel.style.fontWeight = 'normal';
-        ratigueyaLabel.style.fontWeight = 'normal';
-
-        hipodogeLabel.style.color = 'var(--yellow)';
-        capipepoLabel.style.color = 'var(--white)';
-        ratigueyaLabel.style.color = 'var(--white)';
-
-    } else if (capipepoInput.checked == true) {
-        hipodogeLabel.style.fontWeight = 'normal';
-        capipepoLabel.style.fontWeight = 'bold';
-        ratigueyaLabel.style.fontWeight = 'normal';
-
-        hipodogeLabel.style.color = 'var(--white)';
-        capipepoLabel.style.color = 'var(--yellow)';
-        ratigueyaLabel.style.color = 'var(--white)';
-
-    } else if (ratigueyaInput.checked == true) {
-        hipodogeLabel.style.fontWeight = 'normal';
-        capipepoLabel.style.fontWeight = 'normal';
-        ratigueyaLabel.style.fontWeight = 'bold';
-
-        hipodogeLabel.style.color = 'var(--white)';
-        capipepoLabel.style.color = 'var(--white)';
-        ratigueyaLabel.style.color = 'var(--yellow)';
-    }
 
     /* Player Mokepon Choice */
     let playerPonName = document.getElementById('playerPon');
@@ -178,9 +193,4 @@ function enemyPonChoice()  // 👤 Enemy Choice
         console.log('👤 Enemigo eligio a Ratigueya');
         enemyPonName.innerHTML = 'Ratigueya:';
     }
-}
-
-if (playerAtack == 'fuego 🔥' && enemyAtack == 'tierra')
-{
-    
 }
