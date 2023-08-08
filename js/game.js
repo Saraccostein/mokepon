@@ -7,6 +7,13 @@ let gameover = document.getElementById('gameover');
 
 function start()
 {
+    let atackSection = document.getElementById('chooseAtack');
+    let messagesSection = document.getElementById('messages');
+    let rebootSection = document.getElementById('reboot');
+
+    atackSection.style.display = 'none';
+    messagesSection.style.display = 'none';
+    rebootSection.style.display = 'none';
 
     let playerPonButton = document.getElementById('choosePonButton');
     playerPonButton.addEventListener('click', playerPonChoice);
@@ -24,6 +31,10 @@ function start()
     // 🌱 Earth
     let earthInput = document.getElementById('earth');
     earthInput.addEventListener('click', earthAtack);
+
+    // Reboot Game 🔄️
+    let reload = document.getElementById('reboot_button');
+    reload.addEventListener('click', reboot);
 }
 
 let playerLife = 3;
@@ -62,7 +73,6 @@ function battle()
     }
 
     logText.innerHTML = '👩🏻 Has atacado con ' + playerAtack + '<br>' + '👤 El oponente atacó con ' + enemyAtack + '<br>' + winnerMessage;
-
 }
 
 function hurtTheEnemy()
@@ -86,9 +96,8 @@ function hurtTheEnemy()
         enemyheart_2.src = 'assets/heart_gray.svg';
         enemyheart_3.src = 'assets/heart_gray.svg';
 
-        gameover.innerHTML = '<br>Ganaste la batalla 🎺🎊';
-
-        fin = true;
+        gameover.innerHTML = 'Ganaste la batalla 🎺🎊';
+        disableButtons()
     }
 }
 
@@ -113,11 +122,32 @@ function hurtThePlayer() {
         playerheart_2.src = 'assets/heart_gray.svg';
         playerheart_3.src = 'assets/heart_gray.svg'; 
 
-        gameover.innerHTML = '<br>Perdiste la batalla 😓🏳️';
-
-        fin = true;
+        gameover.innerHTML = 'Perdiste la batalla 😓🏳️';
+        disableButtons()
 
     }
+}
+
+function disableButtons() {
+
+    // 🔥 Fire
+    let fireInput = document.getElementById('fire');
+    fireInput.disabled = true;
+
+    // 💧 Water
+    let waterInput = document.getElementById('water');
+    waterInput.disabled = true;
+
+    // 🌱 Earth
+    let earthInput = document.getElementById('earth');
+    earthInput.disabled = true;
+
+    let elementsImput = document.getElementById('elemtsToAtack');
+    elementsImput.style.display = 'none';
+
+    let rebootSection = document.getElementById('reboot');
+    rebootSection.style.display = 'block';
+
 }
 
 function random(max, min)
@@ -129,59 +159,31 @@ function random(max, min)
 let playerAtack;
 let enemyAtack;
 
-function atackMessage() // 🗨️ Menssage
-{
-    if(selectionConfirmation == true) 
-    {
-        console.log('---');
-        console.log('👩🏻 Has lanzado un ataque ' + playerAtack);
-        console.log('👤 El enemigo ha lanzado un ataque ' + enemyAtack);
-    
-    } else if (selectionConfirmation == false) {
-        console.log('Selecciona por favor')
-    }
-}
-
 function fireAtack()
 {
-    if (selectionConfirmation == true && fin == false) {
-        playerAtack = 'fuego 🔥';
-        enemyAtackChoice();
-        atackMessage();
-    } else if (fin == true) {
-        logText.innerHTML = 'Fin del encuentro'
+    playerAtack = 'fuego 🔥';
+    enemyAtackChoice();
 
-    } else {
-        logText.innerHTML = 'Sino eliges Mokepon ¿Cómo piensas pelear?'
-    }
+    let messagesSection = document.getElementById('messages');
+    messagesSection.style.display = 'block';
 }
 
 function waterAtack()
 {
-    if (selectionConfirmation == true && fin == false) {
-        playerAtack = 'agua 💧';
-        enemyAtackChoice();
-        atackMessage();
-    } else if (fin == true) {
-        logText.innerHTML = 'Fin del encuentro'
+    playerAtack = 'agua 💧';
+    enemyAtackChoice();
 
-    } else {
-        logText.innerHTML = 'Sino eliges Mokepon ¿Cómo piensas pelear?'
-}
+    let messagesSection = document.getElementById('messages');
+    messagesSection.style.display = 'block';
 }
 
 function earthAtack()
 {
-    if (selectionConfirmation == true && fin == false) {
-        playerAtack = 'tierra 🌱';
-        enemyAtackChoice();
-        atackMessage();
-    } else if (fin == true) {
-        logText.innerHTML = 'Fin del encuentro'
+    playerAtack = 'tierra 🌱';
+    enemyAtackChoice();
 
-    } else {
-        logText.innerHTML = 'Sino eliges Mokepon ¿Cómo piensas pelear?'
-    }
+    let messagesSection = document.getElementById('messages');
+    messagesSection.style.display = 'block';    
 }
 
 function enemyAtackChoice()
@@ -222,7 +224,6 @@ function hipodogeFocus()
 
 function capipepoFocus()
 {
-
     hipodogeLabel.style.color = 'var(--white)';
     capipepoLabel.style.color = 'var(--yellow)';
     ratigueyaLabel.style.color = 'var(--white)';
@@ -230,7 +231,6 @@ function capipepoFocus()
 
 function ratigueyaFocus()
 {
-
     hipodogeLabel.style.color = 'var(--white)';
     capipepoLabel.style.color = 'var(--white)';
     ratigueyaLabel.style.color = 'var(--yellow)';
@@ -261,9 +261,15 @@ function playerPonChoice() // 👩🏻 Player choice
         selectionConfirmation = true;
         enemyPonChoice();
 
-    } else {    
+    } else {
         logText.innerHTML = 'Elige Mokepon'
     }
+
+    let atackSection = document.getElementById('chooseAtack');
+    atackSection.style.display = 'block';
+
+    let chooseSection = document.getElementById('choosePon');
+    chooseSection.style.display = 'none';
 }
 
 function enemyPonChoice()  // 👤 Enemy Choice
@@ -282,10 +288,7 @@ function enemyPonChoice()  // 👤 Enemy Choice
     }
 }
 
-let reload = document.getElementById('reboot');
-reload.addEventListener('click', reboot);
-
 function reboot() 
 {
-    window.location.reload()
+    location.reload()
 }
