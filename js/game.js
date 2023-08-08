@@ -1,8 +1,13 @@
 /* 🕹️ Game start */
 window.addEventListener('load', start);
 
+let fin = false;
+let logText = document.getElementById('result');
+let gameover = document.getElementById('gameover');
+
 function start()
 {
+
     let playerPonButton = document.getElementById('choosePonButton');
     playerPonButton.addEventListener('click', playerPonChoice);
 
@@ -16,35 +21,103 @@ function start()
     let waterInput = document.getElementById('water');
     waterInput.addEventListener('click', waterAtack);
 
-    // 🌰 Earth
+    // 🌱 Earth
     let earthInput = document.getElementById('earth');
     earthInput.addEventListener('click', earthAtack);
 }
 
-function battle() 
-{
-    let gameLog = document.getElementById('messages');
+let playerLife = 3;
+let enemyLife = 3;
+gameover.innerHTML = '';
 
-    let logText = document.getElementById('result');
+function battle()
+{
+
+    let gameLog = document.getElementById('messages');
+    
     gameLog.appendChild(logText);
 
-    if (playerAtack == 'fuego 🔥' && enemyAtack == 'agua 💧') {
+    if (playerAtack == 'fuego 🔥' && enemyAtack == 'tierra 🌱') {
         winnerMessage = '🏆 Haz ganado';
+        enemyLife--;
+        hurtTheEnemy();
     
-    } else if (playerAtack == 'agua 💧' && enemyAtack == 'tierra 🌰') {
+    } else if (playerAtack == 'agua 💧' && enemyAtack == 'fuego 🔥') {
         winnerMessage = '🏆 Haz ganado';
+        enemyLife--;
+        hurtTheEnemy();
     
-    } else if (playerAtack == 'tierra 🌰' && enemyAtack == 'fuego 🔥') {
+    } else if (playerAtack == 'tierra 🌱' && enemyAtack == 'agua 💧') {
         winnerMessage = '🏆 Haz ganado';
+        enemyLife--;
+        hurtTheEnemy();
     
     } else if (playerAtack == enemyAtack) {
         winnerMessage = '🎌 Ha sido un empate';
     
     } else {
         winnerMessage = '😞 Ganó tu oponente';
+        playerLife--;
+        hurtThePlayer();
     }
 
     logText.innerHTML = '👩🏻 Has atacado con ' + playerAtack + '<br>' + '👤 El oponente atacó con ' + enemyAtack + '<br>' + winnerMessage;
+
+}
+
+function hurtTheEnemy()
+{
+    let enemyheart_1 = document.getElementById('enemyPonHeart-1');
+    let enemyheart_2 = document.getElementById('enemyPonHeart-2');
+    let enemyheart_3 = document.getElementById('enemyPonHeart-3');
+
+    if (enemyLife == 2) {
+        enemyheart_1.src = 'assets/heart.svg';
+        enemyheart_2.src = 'assets/heart.svg';
+        enemyheart_3.src = 'assets/heart_gray.svg';
+    
+    } else if (enemyLife == 1) {
+        enemyheart_1.src = 'assets/heart.svg';
+        enemyheart_2.src = 'assets/heart_gray.svg';
+        enemyheart_3.src = 'assets/heart_gray.svg'; 
+
+    } else if (enemyLife == 0) {
+        enemyheart_1.src = 'assets/heart_gray.svg';
+        enemyheart_2.src = 'assets/heart_gray.svg';
+        enemyheart_3.src = 'assets/heart_gray.svg';
+
+        gameover.innerHTML = '<br>Ganaste la batalla 🎺🎊';
+
+        fin = true;
+    }
+}
+
+function hurtThePlayer() {
+
+    let playerheart_1 = document.getElementById('playerPonHeart-1');
+    let playerheart_2 = document.getElementById('playerPonHeart-2');
+    let playerheart_3 = document.getElementById('playerPonHeart-3');
+
+    if (playerLife == 2) {
+        playerheart_1.src = 'assets/heart.svg';
+        playerheart_2.src = 'assets/heart.svg';
+        playerheart_3.src = 'assets/heart_gray.svg';
+    
+    } else if (playerLife == 1) {
+        playerheart_1.src = 'assets/heart.svg';
+        playerheart_2.src = 'assets/heart_gray.svg';
+        playerheart_3.src = 'assets/heart_gray.svg'; 
+
+    } else if (playerLife == 0) {
+        playerheart_1.src = 'assets/heart_gray.svg';
+        playerheart_2.src = 'assets/heart_gray.svg';
+        playerheart_3.src = 'assets/heart_gray.svg'; 
+
+        gameover.innerHTML = '<br>Perdiste la batalla 😓🏳️';
+
+        fin = true;
+
+    }
 }
 
 function random(max, min)
@@ -71,23 +144,44 @@ function atackMessage() // 🗨️ Menssage
 
 function fireAtack()
 {
-    playerAtack = 'fuego 🔥';
-    enemyAtackChoice();
-    atackMessage();
+    if (selectionConfirmation == true && fin == false) {
+        playerAtack = 'fuego 🔥';
+        enemyAtackChoice();
+        atackMessage();
+    } else if (fin == true) {
+        logText.innerHTML = 'Fin del encuentro'
+
+    } else {
+        logText.innerHTML = 'Sino eliges Mokepon ¿Cómo piensas pelear?'
+    }
 }
 
 function waterAtack()
 {
-    playerAtack = 'agua 💧';
-    enemyAtackChoice();
-    atackMessage();
+    if (selectionConfirmation == true && fin == false) {
+        playerAtack = 'agua 💧';
+        enemyAtackChoice();
+        atackMessage();
+    } else if (fin == true) {
+        logText.innerHTML = 'Fin del encuentro'
+
+    } else {
+        logText.innerHTML = 'Sino eliges Mokepon ¿Cómo piensas pelear?'
+}
 }
 
 function earthAtack()
 {
-    playerAtack = 'tierra 🌰';
-    enemyAtackChoice();
-    atackMessage();
+    if (selectionConfirmation == true && fin == false) {
+        playerAtack = 'tierra 🌱';
+        enemyAtackChoice();
+        atackMessage();
+    } else if (fin == true) {
+        logText.innerHTML = 'Fin del encuentro'
+
+    } else {
+        logText.innerHTML = 'Sino eliges Mokepon ¿Cómo piensas pelear?'
+    }
 }
 
 function enemyAtackChoice()
@@ -102,7 +196,7 @@ function enemyAtackChoice()
         enemyAtack = 'agua 💧';
 
     } else if (randomAtack = 3) {
-        enemyAtack = 'tierra 🌰';
+        enemyAtack = 'tierra 🌱';
     }
 
     battle();
@@ -144,8 +238,6 @@ function ratigueyaFocus()
 
 function playerPonChoice() // 👩🏻 Player choice
 {
-    selectionConfirmation = true;
-
     /* Monsters */
     let hipodogeInput = document.getElementById('hipodoge');
     let capipepoInput = document.getElementById('capipepo');
@@ -155,25 +247,23 @@ function playerPonChoice() // 👩🏻 Player choice
     let playerPonName = document.getElementById('playerPon');
 
     if (hipodogeInput.checked == true) {
-        console.log('---');
-        console.log('👩🏻 Elegiste a Hipodoge');
         playerPonName.innerHTML = 'Hipodoge:'
+        selectionConfirmation = true;
+        enemyPonChoice();
 
     } else if (capipepoInput.checked == true) {
-        console.log('---');
-        console.log('👩🏻 Elegisre a Capipepo');
         playerPonName.innerHTML = 'Capipepo:'
+        selectionConfirmation = true;
+        enemyPonChoice();
 
     } else if (ratigueyaInput.checked == true) {
-        console.log('---');
-        console.log('👩🏻 Elegiste a Ratigueya');
         playerPonName.innerHTML = 'Ratigueya:'
+        selectionConfirmation = true;
+        enemyPonChoice();
 
-    } else {
-        console.log('No has seleccionado aún ❌');
+    } else {    
+        logText.innerHTML = 'Elige Mokepon'
     }
-
-    enemyPonChoice();
 }
 
 function enemyPonChoice()  // 👤 Enemy Choice
@@ -182,15 +272,20 @@ function enemyPonChoice()  // 👤 Enemy Choice
     let randomPon = random(3,1);
 
     if (randomPon == 1) {
-        console.log('👤 Enemigo eligio a Hipodoge');
         enemyPonName.innerHTML = 'Hipodoge:';
 
     } else if (randomPon == 2) {
-        console.log('👤 Enemigo eligio a Capipepo');
         enemyPonName.innerHTML = 'Capipepo:';
 
     } else if (randomPon == 3) {
-        console.log('👤 Enemigo eligio a Ratigueya');
         enemyPonName.innerHTML = 'Ratigueya:';
     }
+}
+
+let reload = document.getElementById('reboot');
+reload.addEventListener('click', reboot);
+
+function reboot() 
+{
+    window.location.reload()
 }
