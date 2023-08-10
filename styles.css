@@ -26,23 +26,18 @@ body {
     background-color: var(--background_dark);
     font-family: "Whyte", sans-serif;
     color: var(--white);
-    text-align: center;
 }
 main {
-
     margin: 3rem auto auto auto;
     width: 50%;
 }
 p {
     text-align: left;
     margin: 0.7rem auto auto auto;
-    width: 16.5rem;
 }
 #messages {
     font-style: normal;
     color: var(--white);
-    margin: auto;
-    width: 16.5rem;
 }
 img {
     width: 2rem;
@@ -50,12 +45,16 @@ img {
 h1 {
     color: var(--primary_purple);
     font-family: 'WhyteInktrap', monospace;
+    text-align: center;
 }
 h2 {
     color: var(--green);
 }
 input {
     display: none;
+}
+label[type="radio"] {
+    display: inline-block;
 }
 button {
     background-color: var(--background_dark);
@@ -66,6 +65,10 @@ button {
     user-select: none;
     cursor: pointer;
     transition: all 0.2s;
+    box-sizing: border-box;
+}
+input:checked + label {
+    color: var(--red);
 }
 button:hover {
     background-color: var(--dark);
@@ -84,6 +87,14 @@ button.issue {
 }
 button.issue:hover:active {
     background-color: var(--low_opacity_red);
+}
+#choosePon {
+    text-align: center;
+}
+#chooseAtack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 #choosePonButton {
     margin-top: 1.5rem;
@@ -106,7 +117,7 @@ button.issue:hover:active {
     background-color: var(--low_opacity_red);
 }
 #water {
-    margin: auto 1rem auto 1rem;
+    margin: auto 0.5rem auto 0.5rem;
 }
 #water:hover img {
     content: url(assets/water.svg);
@@ -128,6 +139,14 @@ button.issue:hover:active {
 }
 #reboot_button {
     margin-top: 0.7rem;
+}
+#log {
+    display: flex;
+    flex-direction: column;
+}
+#reboot {
+    flex-direction: column;
+    align-items: center;
 }
 span {
     color: var(--deep_blue);

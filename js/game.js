@@ -50,7 +50,7 @@ function fireAtack()
     enemyAtackChoice();
 
     let messagesSection = document.getElementById('log');
-    messagesSection.style.display = 'block';
+    messagesSection.style.display = 'flex';
 }
 
 function waterAtack()
@@ -59,7 +59,7 @@ function waterAtack()
     enemyAtackChoice();
 
     let messagesSection = document.getElementById('log');
-    messagesSection.style.display = 'block';
+    messagesSection.style.display = 'flex';
 }
 
 function earthAtack()
@@ -68,7 +68,7 @@ function earthAtack()
     enemyAtackChoice();
 
     let messagesSection = document.getElementById('log');
-    messagesSection.style.display = 'block';    
+    messagesSection.style.display = 'flex';    
 }
 
 function enemyAtackChoice()
@@ -179,7 +179,7 @@ function disableButtons() {
     elementsImput.style.display = 'none';
 
     let rebootSection = document.getElementById('reboot');
-    rebootSection.style.display = 'block';
+    rebootSection.style.display = 'flex';
 }
 /* 🐾 Pon Choice */
 var selectionConfirmation = false;
@@ -273,7 +273,7 @@ function cleanMessages(messageId, backgroundColor, buttonId) {
 function displayAtackSection()
 {
     let atackSection = document.getElementById('chooseAtack');
-    atackSection.style.display = 'block';
+    atackSection.style.display = 'flex';
 
     let chooseSection = document.getElementById('choosePon');
     chooseSection.style.display = 'none';
