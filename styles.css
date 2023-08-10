@@ -1,34 +1,55 @@
 :root {
     /* Colors */
 
-    --amethyst:         hsla(269,  94%, 64%,   1);
-    --primary_purple:   hsla(265,  89%, 78%,   1);
-    --background_dark:  hsla(231,  15%, 18%,   1);
-    --black:            hsla(230,  14%, 25%,   1);
-    --gray:             hsla(232,  14%, 31%,   1);
-    --deep_blue:        hsla(225,  27%, 51%,   1);
-    --blue:             hsla(228,  82%, 61%,   1);
-    --cyan:             hsla(191,  97%, 77%,   1);
-    --green:            hsla(165,  72%, 56%,   1);
-    --red:              hsla(360,  61%, 63%,   1);
-    --red_heart:        hsla(360, 100%, 74%,   1);
-    --yellow:           hsla( 65,  92%, 76%,   1);
-    --white:            hsla( 60,  30%, 96%,   1);
+    --amethyst:          hsla(269,  94%, 64%,   1);
+    --primary_purple:    hsla(265,  89%, 78%,   1);
+    --low_opacity_purple:hsla(265,  89%, 78%, 0.2);
+    --dark:              hsla(235,  14%, 15%,   1);
+    --background_dark:   hsla(231,  15%, 18%,   1);
+    --black:             hsla(230,  14%, 25%,   1);
+    --gray:              hsla(232,  14%, 31%,   1);
+    --deep_blue:         hsla(225,  27%, 51%,   1);
+    --low_opacity_deep:  hsla(225,  27%, 51%, 0.2);
+    --blue:              hsla(228,  82%, 61%,   1);
+    --cyan:              hsla(191,  97%, 77%,   1);
+    --low_opacity_cyan:  hsla(191,  97%, 77%, 0.2);
+    --green:             hsla(135,  94%, 65%,   1);
+    --low_opacity_green: hsla(135,  94%, 65%, 0.2);
+    --red:               hsla(0,   100%, 67%,   1);
+    --low_opacity_red:   hsla(0,   100%, 67%, 0.2);
+    --red_heart:         hsla(360, 100%, 74%,   1);
+    --orange:            hsla( 31, 100%, 71%,   1);
+    --yellow:            hsla( 65,  92%, 76%,   1);
+    --white:             hsla( 60,  30%, 96%,   1);
 }
 body {
     background-color: var(--background_dark);
     font-family: "Whyte", sans-serif;
     color: var(--white);
+    text-align: center;
 }
 main {
+
+    margin: 3rem auto auto auto;
+    width: 50%;
+}
+p {
+    text-align: left;
+    margin: 0.7rem auto auto auto;
+    width: 16.5rem;
+}
+#messages {
+    font-style: normal;
+    color: var(--white);
     margin: auto;
-    width: 80%;
+    width: 16.5rem;
 }
 img {
     width: 2rem;
 }
 h1 {
     color: var(--primary_purple);
+    font-family: 'WhyteInktrap', monospace;
 }
 h2 {
     color: var(--green);
@@ -37,13 +58,78 @@ input {
     display: none;
 }
 button {
-    background-color: var(--black);
-    border: none;
-    border-radius: 4px;
+    background-color: var(--background_dark);
+    border: 1px solid var(--deep_blue);
+    border-radius: 6px;
     padding: 0.5rem;
-    color: var(--cyan);
+    color: var(--deep_blue);
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 button:hover {
-    background-color: var(--blue);
-    color: var(--white);
+    background-color: var(--dark);
+    border-color: var(--primary_purple);
+    color: var(--primary_purple);
+}
+button:active {
+    background-color: var(--low_opacity_deep);
+}
+button:hover:active {
+    background-color: var(--low_opacity_purple);
+}
+button.issue {
+    color: var(--red);
+    border-color: var(--red);
+}
+button.issue:hover:active {
+    background-color: var(--low_opacity_red);
+}
+#choosePonButton {
+    margin-top: 1.5rem;
+}
+#choosePonMessages {
+    text-align: center;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+#elemtsToAtack {
+    margin-top: 0.7rem;
+}
+#fire:hover img {
+    content: url(assets/fire.svg);
+}
+#fire:hover {
+    border-color: var(--red);
+}
+#fire:hover:active {
+    background-color: var(--low_opacity_red);
+}
+#water {
+    margin: auto 1rem auto 1rem;
+}
+#water:hover img {
+    content: url(assets/water.svg);
+}
+#water:hover {
+    border-color: var(--cyan);
+}
+#water:hover:active {
+    background-color: var(--low_opacity_cyan);
+}
+#earth:hover img {
+    content: url(assets/plant.svg);
+}
+#earth:hover {
+    border-color: var(--green);
+}
+#earth:hover:active{
+    background-color: var(--low_opacity_green);
+}
+#reboot_button {
+    margin-top: 0.7rem;
+}
+span {
+    color: var(--deep_blue);
+    font-family: 'WhyteInktrapSemi-Mono', monospace;
 }
