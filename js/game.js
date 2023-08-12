@@ -175,7 +175,7 @@ function disableButtons() {
     let earthInput = document.getElementById('earth');
     earthInput.disabled = true;
 
-    let elementsImput = document.getElementById('elemtsToAtack');
+    let elementsImput = document.getElementById('elementsToAtack');
     elementsImput.style.display = 'none';
 
     let rebootSection = document.getElementById('reboot');
@@ -198,23 +198,23 @@ let choosePonInteractiveMessage = document.getElementById('choosePonMessages');
 function hipodogeFocus()
 {
     hipodogeLabel.style.color = 'var(--yellow)';
-    capipepoLabel.style.color = 'var(--white)';
-    ratigueyaLabel.style.color = 'var(--white)';
+    capipepoLabel.style.color = 'var(--deep_blue)';
+    ratigueyaLabel.style.color = 'var(--deep_blue)';
     cleanMessages(choosePonInteractiveMessage, 'var(--background_dark)', playerPonButton);
 }
 
 function capipepoFocus()
 {
-    hipodogeLabel.style.color = 'var(--white)';
+    hipodogeLabel.style.color = 'var(--deep_blue)';
     capipepoLabel.style.color = 'var(--yellow)';
-    ratigueyaLabel.style.color = 'var(--white)';
+    ratigueyaLabel.style.color = 'var(--deep_blue)';
     cleanMessages(choosePonInteractiveMessage, 'var(--background_dark)', playerPonButton);
 }
 
 function ratigueyaFocus()
 {
-    hipodogeLabel.style.color = 'var(--white)';
-    capipepoLabel.style.color = 'var(--white)';
+    hipodogeLabel.style.color = 'var(--deep_blue)';
+    capipepoLabel.style.color = 'var(--deep_blue)';
     ratigueyaLabel.style.color = 'var(--yellow)';
     cleanMessages(choosePonInteractiveMessage, 'var(--background_dark)', playerPonButton);
 }

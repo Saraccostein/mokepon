@@ -20,6 +20,7 @@
     --red_heart:         hsla(360, 100%, 74%,   1);
     --orange:            hsla( 31, 100%, 71%,   1);
     --yellow:            hsla( 65,  92%, 76%,   1);
+    --low_opacity_yellow:hsla( 65,  92%, 76%, 0.2);
     --white:             hsla( 60,  30%, 96%,   1);
 }
 body {
@@ -38,9 +39,6 @@ p {
 #messages {
     font-style: normal;
     color: var(--white);
-}
-img {
-    width: 2rem;
 }
 h1 {
     color: var(--primary_purple);
@@ -89,7 +87,36 @@ button.issue:hover:active {
     background-color: var(--low_opacity_red);
 }
 #choosePon {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ponLabel {
+    background-color: var(--background_dark);
+    border: 1px solid var(--deep_blue);
+    border-radius: 6px;
+    padding: 0.5rem;
+    color: var(--deep_blue);
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.05s;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+.ponLabel img {
+    width: 10rem;
+}
+.ponLabel:hover {
+    color: var(--yellow);
+    border-color: var(--yellow);
+}
+.ponLabel:hover:active {
+    background-color: var(--low_opacity_yellow);
+}
+#ponButtons {
+    display: flex;
+    gap: 1rem;
 }
 #chooseAtack {
     display: flex;
@@ -104,8 +131,11 @@ button.issue:hover:active {
     font-style: italic;
     font-size: 0.85rem;
 }
-#elemtsToAtack {
+#elementsToAtack {
     margin-top: 0.7rem;
+}
+#chooseAtack img {
+    width: 2rem;
 }
 #fire:hover img {
     content: url(assets/fire.svg);
