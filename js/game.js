@@ -73,7 +73,6 @@ function earthAtack()
 
 function enemyAtackChoice()
 {
-
     let randomAtack = random(3,1);
 
     if (randomAtack == 1) {
@@ -184,6 +183,9 @@ function disableButtons() {
 /* 🐾 Pon Choice */
 var selectionConfirmation = false;
 
+let playerPonButton = document.getElementById('choosePonButton');
+let choosePonInteractiveMessage = document.getElementById('choosePonMessages');
+
 let hipodogeLabel = document.getElementById('hipodoge_label');
 let capipepoLabel = document.getElementById('capipepo_label');
 let ratigueyaLabel = document.getElementById('ratigueya_label');
@@ -192,31 +194,28 @@ hipodogeLabel.addEventListener('click', hipodogeFocus);
 capipepoLabel.addEventListener('click', capipepoFocus);
 ratigueyaLabel.addEventListener('click', ratigueyaFocus);
 
-let playerPonButton = document.getElementById('choosePonButton');
-let choosePonInteractiveMessage = document.getElementById('choosePonMessages');
-
 function hipodogeFocus()
 {
-    hipodogeLabel.style.color = 'var(--yellow)';
-    capipepoLabel.style.color = 'var(--deep_blue)';
-    ratigueyaLabel.style.color = 'var(--deep_blue)';
-    cleanMessages(choosePonInteractiveMessage, 'var(--background_dark)', playerPonButton);
+    hipodogeLabel.classList.add('hipodoge_focused');
+    capipepoLabel.classList.remove('capipepo_focused');
+    ratigueyaLabel.classList.remove('ratigueya_focused');
+    cleanMessages(choosePonInteractiveMessage, playerPonButton);
 }
 
 function capipepoFocus()
 {
-    hipodogeLabel.style.color = 'var(--deep_blue)';
-    capipepoLabel.style.color = 'var(--yellow)';
-    ratigueyaLabel.style.color = 'var(--deep_blue)';
-    cleanMessages(choosePonInteractiveMessage, 'var(--background_dark)', playerPonButton);
+    hipodogeLabel.classList.remove('hipodoge_focused');
+    capipepoLabel.classList.add('capipepo_focused');
+    ratigueyaLabel.classList.remove('ratigueya_focused');
+    cleanMessages(choosePonInteractiveMessage, playerPonButton);
 }
 
 function ratigueyaFocus()
 {
-    hipodogeLabel.style.color = 'var(--deep_blue)';
-    capipepoLabel.style.color = 'var(--deep_blue)';
-    ratigueyaLabel.style.color = 'var(--yellow)';
-    cleanMessages(choosePonInteractiveMessage, 'var(--background_dark)', playerPonButton);
+    hipodogeLabel.classList.remove('hipodoge_focused');
+    capipepoLabel.classList.remove('capipepo_focused');
+    ratigueyaLabel.classList.add('ratigueya_focused');
+    cleanMessages(choosePonInteractiveMessage, playerPonButton);
 }
 
 function playerPonChoice() // 👩🏻 Player choice
@@ -259,15 +258,11 @@ function issueStyle(element) {
     element.className = 'issue';
 }
 
-function cleanMessages(messageId, backgroundColor, buttonId) {
+function cleanMessages(messageId, buttonId) {
     
     /* Clean messages */
     messageId.innerHTML = '';
-    messageId.style.color = backgroundColor;
-    messageId.classList.remove('issues');
-
-    /* Clean buttons */
-    buttonId.className = '';
+    buttonId.classList.remove('issue')
 }
 
 function displayAtackSection()
