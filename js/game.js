@@ -1,6 +1,5 @@
 /* 🕹️ Game start */
 window.addEventListener('load', start);
-
 let logText = document.getElementById('result');
 
 function start()
@@ -84,45 +83,93 @@ function enemyAtackChoice()
     } else if (randomAtack = 3) {
         enemyAtack = 'tierra 🌱';
     }
-
     battle();
 }
 
 let playerLife = 3;
 let enemyLife = 3;
 
+let gamesWon = 0;
+let gamesLoose = 0;
+let gamesTie = 0;
+
 function battle()
 {
-
     let gameLog = document.getElementById('log');
     
     gameLog.appendChild(logText);
 
     if (playerAtack == 'fuego 🔥' && enemyAtack == 'tierra 🌱') {
-        winnerMessage = '🏆 Haz ganado';
+        message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
+        gamesWon++;
+        gamesLoose = 0;
+        gamesTie = 0;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎺🎊');
+        counter();
     
     } else if (playerAtack == 'agua 💧' && enemyAtack == 'fuego 🔥') {
-        winnerMessage = '🏆 Haz ganado';
+        message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
+        gamesWon++;
+        gamesLoose = 0;
+        gamesTie = 0;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎺🎊');
     
     } else if (playerAtack == 'tierra 🌱' && enemyAtack == 'agua 💧') {
-        winnerMessage = '🏆 Haz ganado';
+        message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
+        gamesWon++;
+        gamesLoose = 0;
+        gamesTie = 0;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎺🎊');
     
     } else if (playerAtack == enemyAtack) {
-        winnerMessage = '🎌 Ha sido un empate';
+        message(logText, 'Ha sido un empate.', 'tie');
+        gamesLoose++;
+        gamesWon  = 0;
+        gamesTie = 0;
     
     } else {
-        winnerMessage = '😞 Ganó tu oponente';
+        message(logText, 'El oponente acertó.', 'loose');
         playerLife--;
+        gamesWon++;
         hurt(playerLife, playerhearts, 'Perdiste la batalla 😓🏳️');
     }
+}
 
-    logText.innerHTML = '👩🏻 Has atacado con ' + playerAtack + '<br>' + '👤 El oponente atacó con ' + enemyAtack + '<br>' + winnerMessage;
+function message(id, message, activeClass) {
+    id.innerHTML = message;
+    if (activeClass == 'win') {
+        id.classList.add('win');
+        id.classList.remove('loose');
+        id.classList.remove('tie');
+
+    } else if (activeClass == 'loose') {
+        id.classList.add('loose');
+        id.classList.remove('win');
+        id.classList.remove('tie');
+
+    } else {
+        id.classList.add('tie');
+        id.classList.remove('loose');
+        id.classList.remove('win');
+    }
+}
+
+function counter () {
+    let counter = document.getElementById('repetitions');
+
+    if (gamesWon > 0) {
+        counter.innerHTML = gamesWon;
+        console.log(gamesWon);
+    
+    } else if (gamesLoose > 0) {
+        counter.innerHTML = gamesLoose;
+    
+    } else {
+        counter.innerHTML = gamesTie;
+    } 
 }
 
 let playerhearts = [

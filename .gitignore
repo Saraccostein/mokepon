@@ -4,3 +4,7 @@
 # Fonts
 *.woff
 *.woff2
+
+# Binary
+*.afdesign
+*.pdf

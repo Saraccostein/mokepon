@@ -16,9 +16,6 @@
         <meta property="og:title"       content="Mokepon">
         <meta property="og:description" content="Colecciona monstruos y vive intensas batallas" >
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://api.fonts.coollabs.io" crossorigin>
-
         <!-- Custome -->
         <link rel="shortcut icon" href="assets/play.svg" type="img/svg">
         <link rel="stylesheet"    href="normalize.css"   type="text/css">
@@ -26,7 +23,8 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="fonts/fonts.css" type="text/css">
-
+        <link rel="preconnect" href="https://api.fonts.coollabs.io" crossorigin>
+        
         <title>Mokepon</title>
     </head>
     <body>
@@ -72,17 +70,15 @@
                 </div>
 
                 <section id="log">
-
+                    <p id="repetitions"></p>
                     <p id="result"></p>
-                    <p id="gameover"></p>
+                </section>
 
-                    <section id="reboot">
-                        <button id="reboot_button">¿Volver a jugar?</button>
-                    </section>
-
+                <section id="reboot">
+                    <button id="reboot_button">¿Volver a jugar?</button>
                 </section>
                 
-                <section>
+                <section id="lifes">
                     <div id="playerPonLife">
                         <!--🐾--> <span id="playerPon"> </span> <br>
                         <!--💗--> <span class="playerPonHeart"> <img id="playerPonHeart-0" src="assets/heart.svg" type="img/svg"> </span>
@@ -96,6 +92,10 @@
                         <!--💗--> <span class="enemyPonHeart"> <img id="enemyPonHeart-1" src="assets/heart.svg" type="img/svg"> </span>
                         <!--💗--> <span class="enemyPonHeart"> <img id="enemyPonHeart-2" src="assets/heart.svg" type="img/svg"> </span>
                     </div>
+
+                    <p id="playerAtacksLog"></p>
+                    <p id="enemyAtacksLog"></p>
+                    <p id="gameover"></p>
                 </section>
 
             </section>

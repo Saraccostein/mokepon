@@ -23,6 +23,7 @@
     --yellow:            hsla( 65,  92%, 76%,   1);
     --low_opacity_yellow:hsla( 65,  92%, 76%, 0.2);
     --white:             hsla( 60,  30%, 96%,   1);
+    --low_opacity_white: hsla( 60,  30%, 96%, 0.2);
 }
 body {
     background-color: var(--background_dark);
@@ -110,7 +111,6 @@ button.issue:hover:active {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    transition: all 0.2s;
 }
 .ponLabel img {
     width: 10rem;
@@ -141,7 +141,6 @@ button.issue:hover:active {
 /* chooseAtack Section */
 
 #chooseAtack {
-    display: flex;
     flex-direction: column;
     align-items: center;
 }
@@ -152,9 +151,6 @@ button.issue:hover:active {
     text-align: center;
     font-style: italic;
     font-size: 0.85rem;
-}
-#elementsToAtack {
-    margin-top: 0.7rem;
 }
 #chooseAtack img {
     width: 2rem;
@@ -195,16 +191,59 @@ button.issue:hover:active {
 
 /* Messages */
 
-
 #log {
-    display: flex;
     flex-direction: column;
-}
-#reboot {
-    flex-direction: column;
-    align-items: center;
 }
 span {
     color: var(--deep_blue);
     font-family: 'WhyteInktrapSemi-Mono', monospace;
+}
+#reboot {
+    margin-bottom: 0.7rem;
+}
+#playerPon {
+    text-align: center;
+}
+#result {
+    border-left: 4px solid;
+    border-radius: 3px;
+    padding: 0.5rem;
+    user-select: none;
+    box-sizing: border-box;
+    transition: all 0.4s;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+}
+.win {
+    color: var(--yellow);
+    border: var(--yellow);
+    background-color: var(--low_opacity_yellow);
+}
+.loose {
+    color: var(--red);
+    border: var(--red);
+    background-color: var(--low_opacity_red);
+}
+.tie {
+    color: var(--white);
+    border: var(--white);
+    background-color: var(--low_opacity_white);
+}
+
+#gameover {
+    display: flex;
+}
+
+/* Hearts */
+
+#lifes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.counter {
+    background-color: var(--deep_blue);
+    color: var(--background_dark);
 }
