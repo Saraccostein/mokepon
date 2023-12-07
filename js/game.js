@@ -1,4 +1,8 @@
 /* 🕹️ Game start */
+const hipodogePng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_hipodoge_attack.png'
+const capipepoPng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_capipepo_attack.png'
+const ratigueyaPng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_ratigueya_attack.png'
+
 window.addEventListener('load', start);
 let logText = document.getElementById('result');
 
@@ -9,8 +13,8 @@ function start()
     let rebootSection = document.getElementById('reboot');
 
     atackSection.style.display = 'none';
-    messagesSection.style.display = 'none';
-    rebootSection.style.display = 'none'
+    messagesSection.style.visibility = 'hidden';
+    rebootSection.style.visibility = 'hidden';
 
     let playerPonButton = document.getElementById('choosePonButton');
     playerPonButton.addEventListener('click', playerPonChoice);
@@ -49,7 +53,7 @@ function fireAtack()
     enemyAtackChoice();
 
     let messagesSection = document.getElementById('log');
-    messagesSection.style.display = 'flex';
+    messagesSection.style.visibility = 'visible';
 }
 
 function waterAtack()
@@ -58,7 +62,7 @@ function waterAtack()
     enemyAtackChoice();
 
     let messagesSection = document.getElementById('log');
-    messagesSection.style.display = 'flex';
+    messagesSection.style.visibility = 'visible';
 }
 
 function earthAtack()
@@ -67,7 +71,7 @@ function earthAtack()
     enemyAtackChoice();
 
     let messagesSection = document.getElementById('log');
-    messagesSection.style.display = 'flex';    
+    messagesSection.style.visibility = 'visible';    
 }
 
 function enemyAtackChoice()
@@ -105,7 +109,7 @@ function battle()
         gamesWon++;
         gamesLoose = 0;
         gamesTie = 0;
-        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎺🎊');
+        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
         counter();
     
     } else if (playerAtack == 'agua 💧' && enemyAtack == 'fuego 🔥') {
@@ -114,7 +118,7 @@ function battle()
         gamesWon++;
         gamesLoose = 0;
         gamesTie = 0;
-        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎺🎊');
+        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
     
     } else if (playerAtack == 'tierra 🌱' && enemyAtack == 'agua 💧') {
         message(logText, 'Acertaste el ataque.', 'win');
@@ -122,7 +126,7 @@ function battle()
         gamesWon++;
         gamesLoose = 0;
         gamesTie = 0;
-        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎺🎊');
+        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
     
     } else if (playerAtack == enemyAtack) {
         message(logText, 'Ha sido un empate.', 'tie');
@@ -134,7 +138,7 @@ function battle()
         message(logText, 'El oponente acertó.', 'loose');
         playerLife--;
         gamesWon++;
-        hurt(playerLife, playerhearts, 'Perdiste la batalla 😓🏳️');
+        hurt(playerLife, playerhearts, 'Perdiste la batalla 😓');
     }
 }
 
@@ -201,8 +205,7 @@ function hurt(fighterLife, fighterHearts, message) {
         fighterHearts[1].src = 'assets/heart_gray.svg';
         fighterHearts[2].src = 'assets/heart_gray.svg';
 
-        let gameoverMessage = document.getElementById('gameover');
-        gameoverMessage.innerHTML = message;
+        logText.innerHTML = message;
         disableButtons();
     }
 }
@@ -222,10 +225,10 @@ function disableButtons() {
     earthInput.disabled = true;
 
     let elementsImput = document.getElementById('elementsToAtack');
-    elementsImput.style.display = 'none';
+    elementsImput.style.visibility = 'hidden';
 
     let rebootSection = document.getElementById('reboot');
-    rebootSection.style.display = 'flex';
+    rebootSection.style.visibility = 'visible';
 }
 /* 🐾 Pon Choice */
 var selectionConfirmation = false;
@@ -272,25 +275,36 @@ function playerPonChoice() // 👩🏻 Player choice
     let capipepoInput = document.getElementById('capipepo');
     let ratigueyaInput = document.getElementById('ratigueya');
 
+    /* For Atack Section */
+    let playerPonAtackCard = document.getElementById('playerPonAtackMode')
+
     /* Player Mokepon Choice */
     let playerPonName = document.getElementById('playerPon');
 
     if (hipodogeInput.checked == true) {
         playerPonName.innerHTML = 'Hipodoge'
+        
         selectionConfirmation = true;
         enemyPonChoice();
+
+        playerPonAtackCard.src = hipodogePng;
+        playerPonAtackCard.style.transform = "scaleX(-1)";
         displayAtackSection();
 
     } else if (capipepoInput.checked == true) {
         playerPonName.innerHTML = 'Capipepo'
         selectionConfirmation = true;
         enemyPonChoice();
+
+        playerPonAtackCard.src = capipepoPng;
         displayAtackSection();
 
     } else if (ratigueyaInput.checked == true) {
         playerPonName.innerHTML = 'Ratigueya'
         selectionConfirmation = true;
         enemyPonChoice();
+
+        playerPonAtackCard.src = ratigueyaPng;
         displayAtackSection();
 
     } else {
@@ -315,7 +329,7 @@ function cleanMessages(messageId, buttonId) {
 function displayAtackSection()
 {
     let atackSection = document.getElementById('chooseAtack');
-    atackSection.style.display = 'flex';
+    atackSection.style.display = 'grid';
 
     let chooseSection = document.getElementById('choosePon');
     chooseSection.style.display = 'none';
@@ -323,17 +337,22 @@ function displayAtackSection()
 
 function enemyPonChoice()  // 👤 Enemy Choice
 {
+    let enemyPonAtackCard = document.getElementById('enemyPonAtackMode')
     let enemyPonName = document.getElementById('enemyPon');
     let randomPon = random(3,1);
 
     if (randomPon == 1) {
         enemyPonName.innerHTML = 'Hipodoge';
+        enemyPonAtackCard.src = hipodogePng;
 
     } else if (randomPon == 2) {
         enemyPonName.innerHTML = 'Capipepo';
+        enemyPonAtackCard.src = capipepoPng;
 
-    } else if (randomPon == 3) {
+    } else {
         enemyPonName.innerHTML = 'Ratigueya';
+        enemyPonAtackCard.src = ratigueyaPng;
+        enemyPonAtackCard.style.transform = "scaleX(-1)";
     }
 }
 
