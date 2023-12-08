@@ -107,39 +107,35 @@ function battle()
         message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
         gamesWon++;
-        gamesLoose = 0;
-        gamesTie = 0;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
-        counter();
     
     } else if (playerAtack == 'agua 💧' && enemyAtack == 'fuego 🔥') {
         message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
         gamesWon++;
-        gamesLoose = 0;
-        gamesTie = 0;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
     
     } else if (playerAtack == 'tierra 🌱' && enemyAtack == 'agua 💧') {
         message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
         gamesWon++;
-        gamesLoose = 0;
-        gamesTie = 0;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
     
     } else if (playerAtack == enemyAtack) {
         message(logText, 'Ha sido un empate.', 'tie');
-        gamesLoose++;
-        gamesWon  = 0;
-        gamesTie = 0;
+        gamesTie ++;
     
     } else {
         message(logText, 'El oponente acertó.', 'loose');
         playerLife--;
-        gamesWon++;
+        gamesLoose++;
         hurt(playerLife, playerhearts, 'Perdiste la batalla 😓');
     }
+
+    let victories = document.getElementById('victories');
+    let defeats = document.getElementById('defeats');
+    victories.innerHTML = gamesWon;
+    defeats.innerHTML = gamesLoose;
 }
 
 function message(id, message, activeClass) {
@@ -159,21 +155,6 @@ function message(id, message, activeClass) {
         id.classList.remove('loose');
         id.classList.remove('win');
     }
-}
-
-function counter () {
-    let counter = document.getElementById('repetitions');
-
-    if (gamesWon > 0) {
-        counter.innerHTML = gamesWon;
-        console.log(gamesWon);
-    
-    } else if (gamesLoose > 0) {
-        counter.innerHTML = gamesLoose;
-    
-    } else {
-        counter.innerHTML = gamesTie;
-    } 
 }
 
 let playerhearts = [
@@ -282,7 +263,7 @@ function playerPonChoice() // 👩🏻 Player choice
     let playerPonName = document.getElementById('playerPon');
 
     if (hipodogeInput.checked == true) {
-        playerPonName.innerHTML = 'Hipodoge'
+        playerPonName.innerHTML = 'Hipodoge (tú)'
         
         selectionConfirmation = true;
         enemyPonChoice();
@@ -292,7 +273,7 @@ function playerPonChoice() // 👩🏻 Player choice
         displayAtackSection();
 
     } else if (capipepoInput.checked == true) {
-        playerPonName.innerHTML = 'Capipepo'
+        playerPonName.innerHTML = 'Capipepo (tú)'
         selectionConfirmation = true;
         enemyPonChoice();
 
@@ -300,7 +281,7 @@ function playerPonChoice() // 👩🏻 Player choice
         displayAtackSection();
 
     } else if (ratigueyaInput.checked == true) {
-        playerPonName.innerHTML = 'Ratigueya'
+        playerPonName.innerHTML = 'Ratigueya (tú)'
         selectionConfirmation = true;
         enemyPonChoice();
 

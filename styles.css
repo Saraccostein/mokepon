@@ -238,14 +238,25 @@ span {
 }
 
 /* Hearts */
+#ally_tag {
+    display: grid;
+}
 .tag {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: bold;
-    color: var(--background_dark);
-    background-color: var(--gray);
-    padding: 0.3rem 0.2rem 0.2rem 0.2rem;
     border-radius: 3px;
+    padding: 0.3rem 0.2rem 0.2rem 0.2rem;
     margin: 0;
+    font-family: 'WhyteInktrapSemi-Mono', monospace;
+    width: 1rem;
+}
+#victories {
+    background-color: var(--low_opacity_yellow);
+    color: var(--yellow);
+}
+#defeats {
+    background-color: var(--low_opacity_red);
+    color: var(--red);
 }
 .elementButton {
     width: 3rem;
@@ -311,6 +322,7 @@ span {
     }
     h1 {
         font-size: 2rem;
+        margin: auto;
     }
     h2 {
         font-size: 1.3rem;
@@ -326,7 +338,27 @@ span {
         flex-direction: column;
     }
     #chooseAtack {
-        width: 90%;
+        width: 70%;
+        margin: auto;
+    }
+    .attackCard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        width: 95%;
+    }
+    #playerPonAtackMode {
+        width: 80%;
+    }
+    #enemyPonAtackMode {
+        width: 80%;
+    }
+    #playerPonLife img {
+        width: 1.5rem;
+    }
+    #enemyPonLife img {
+        width: 1.5rem;
     }
 }
 /*
