@@ -4,76 +4,115 @@ const capipepoPng = 'https://raw.githubusercontent.com/platzi/curso-programacion
 const ratigueyaPng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_ratigueya_attack.png'
 
 window.addEventListener('load', start);
-let logText = document.getElementById('result');
+
+const playerPonButton = document.getElementById('choosePonButton');
+
+// Elements
+const elementsImput = document.getElementById('elementsToAtack');
+const fireInput = document.getElementById('fire');
+const waterInput = document.getElementById('water');
+const earthInput = document.getElementById('earth');
+
+/* Monsters */
+const hipodogeLabel = document.getElementById('hipodoge_label');
+const capipepoLabel = document.getElementById('capipepo_label');
+const ratigueyaLabel = document.getElementById('ratigueya_label');
+const choosePonInteractiveMessage = document.getElementById('choosePonMessages');
+
+const hipodogeInput = document.getElementById('hipodoge');
+const capipepoInput = document.getElementById('capipepo');
+const ratigueyaInput = document.getElementById('ratigueya');
+const enemyPonName = document.getElementById('enemyPon');
+const playerPonName = document.getElementById('playerPon');
+
+/* For Atack Section */
+const playerPonAtackCard = document.getElementById('playerPonAtackMode');
+const enemyPonAtackCard = document.getElementById('enemyPonAtackMode');
+
+const chooseSection = document.getElementById("choosePon");
+const atackSection = document.getElementById('chooseAtack');
+
+const playerhearts = [
+    document.getElementById('playerPonHeart-0'),
+    document.getElementById('playerPonHeart-1'),
+    document.getElementById('playerPonHeart-2')
+];
+const enemyhearts = [
+    document.getElementById('enemyPonHeart-0'),
+    document.getElementById('enemyPonHeart-1'),
+    document.getElementById('enemyPonHeart-2')
+];
+
+const victories = document.getElementById('victories');
+const defeats = document.getElementById('defeats');
+const messagesSection = document.getElementById('log');
+const rebootSection = document.getElementById('reboot');
+
+const logText = document.getElementById('result');
+
+/* 🐾 Pon Choice */
+let selectionConfirmation = false;
+
+/* 🥊 Atacks */
+let playerAtack;
+let enemyAtack;
+
+let playerLife = 3;
+let enemyLife = 3;
+
+let gamesWon = 0;
+let gamesLoose = 0;
+let gamesTie = 0;
+
+hipodogeLabel.addEventListener('click', hipodogeFocus);
+capipepoLabel.addEventListener('click', capipepoFocus);
+ratigueyaLabel.addEventListener('click', ratigueyaFocus);
 
 function start()
 {
-    let atackSection = document.getElementById('chooseAtack');
-    let messagesSection = document.getElementById('log');
-    let rebootSection = document.getElementById('reboot');
-
     atackSection.style.display = 'none';
     messagesSection.style.visibility = 'hidden';
     rebootSection.style.visibility = 'hidden';
 
-    let playerPonButton = document.getElementById('choosePonButton');
     playerPonButton.addEventListener('click', playerPonChoice);
 
     /* 👩🏻 Player Atack */
     
     // 🔥 Fire
-    let fireInput = document.getElementById('fire');
     fireInput.addEventListener('click', fireAtack);
 
     // 💧 Water
-    let waterInput = document.getElementById('water');
     waterInput.addEventListener('click', waterAtack);
 
     // 🌱 Earth
-    let earthInput = document.getElementById('earth');
     earthInput.addEventListener('click', earthAtack);
 
     // Reboot Game 🔄️
     let reload = document.getElementById('reboot_button');
     reload.addEventListener('click', reboot);
 }
-
 function random(max, min)
 {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-
-/* 🥊 Atacks */
-let playerAtack;
-let enemyAtack;
-
 function fireAtack()
 {
     playerAtack = 'fuego 🔥';
     enemyAtackChoice();
-
-    let messagesSection = document.getElementById('log');
     messagesSection.style.visibility = 'visible';
 }
-
 function waterAtack()
 {
     playerAtack = 'agua 💧';
     enemyAtackChoice();
-
-    let messagesSection = document.getElementById('log');
     messagesSection.style.visibility = 'visible';
 }
-
 function earthAtack()
 {
     playerAtack = 'tierra 🌱';
     enemyAtackChoice();
-
-    let messagesSection = document.getElementById('log');
     messagesSection.style.visibility = 'visible';    
 }
-
 function enemyAtackChoice()
 {
     let randomAtack = random(3,1);
@@ -89,20 +128,8 @@ function enemyAtackChoice()
     }
     battle();
 }
-
-let playerLife = 3;
-let enemyLife = 3;
-
-let gamesWon = 0;
-let gamesLoose = 0;
-let gamesTie = 0;
-
 function battle()
 {
-    let gameLog = document.getElementById('log');
-    
-    gameLog.appendChild(logText);
-
     if (playerAtack == 'fuego 🔥' && enemyAtack == 'tierra 🌱') {
         message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
@@ -131,13 +158,9 @@ function battle()
         gamesLoose++;
         hurt(playerLife, playerhearts, 'Perdiste la batalla 😓');
     }
-
-    let victories = document.getElementById('victories');
-    let defeats = document.getElementById('defeats');
     victories.innerHTML = gamesWon;
     defeats.innerHTML = gamesLoose;
 }
-
 function message(id, message, activeClass) {
     id.innerHTML = message;
     if (activeClass == 'win') {
@@ -156,19 +179,6 @@ function message(id, message, activeClass) {
         id.classList.remove('win');
     }
 }
-
-let playerhearts = [
-    document.getElementById('playerPonHeart-0'),
-    document.getElementById('playerPonHeart-1'),
-    document.getElementById('playerPonHeart-2')
-];
-
-let enemyhearts = [
-    document.getElementById('enemyPonHeart-0'),
-    document.getElementById('enemyPonHeart-1'),
-    document.getElementById('enemyPonHeart-2')
-];
-
 function hurt(fighterLife, fighterHearts, message) {
 
     if (fighterLife == 2) {
@@ -190,41 +200,14 @@ function hurt(fighterLife, fighterHearts, message) {
         disableButtons();
     }
 }
-
 function disableButtons() {
 
-    // 🔥 Fire
-    let fireInput = document.getElementById('fire');
     fireInput.disabled = true;
-
-    // 💧 Water
-    let waterInput = document.getElementById('water');
     waterInput.disabled = true;
-
-    // 🌱 Earth
-    let earthInput = document.getElementById('earth');
     earthInput.disabled = true;
-
-    let elementsImput = document.getElementById('elementsToAtack');
     elementsImput.style.visibility = 'hidden';
-
-    let rebootSection = document.getElementById('reboot');
     rebootSection.style.visibility = 'visible';
 }
-/* 🐾 Pon Choice */
-var selectionConfirmation = false;
-
-let playerPonButton = document.getElementById('choosePonButton');
-let choosePonInteractiveMessage = document.getElementById('choosePonMessages');
-
-let hipodogeLabel = document.getElementById('hipodoge_label');
-let capipepoLabel = document.getElementById('capipepo_label');
-let ratigueyaLabel = document.getElementById('ratigueya_label');
-
-hipodogeLabel.addEventListener('click', hipodogeFocus);
-capipepoLabel.addEventListener('click', capipepoFocus);
-ratigueyaLabel.addEventListener('click', ratigueyaFocus);
-
 function hipodogeFocus()
 {
     hipodogeLabel.classList.add('hipodoge_focused');
@@ -232,7 +215,6 @@ function hipodogeFocus()
     ratigueyaLabel.classList.remove('ratigueya_focused');
     cleanMessages(choosePonInteractiveMessage, playerPonButton);
 }
-
 function capipepoFocus()
 {
     hipodogeLabel.classList.remove('hipodoge_focused');
@@ -240,7 +222,6 @@ function capipepoFocus()
     ratigueyaLabel.classList.remove('ratigueya_focused');
     cleanMessages(choosePonInteractiveMessage, playerPonButton);
 }
-
 function ratigueyaFocus()
 {
     hipodogeLabel.classList.remove('hipodoge_focused');
@@ -248,20 +229,8 @@ function ratigueyaFocus()
     ratigueyaLabel.classList.add('ratigueya_focused');
     cleanMessages(choosePonInteractiveMessage, playerPonButton);
 }
-
 function playerPonChoice() // 👩🏻 Player choice
 {
-    /* Monsters */
-    let hipodogeInput = document.getElementById('hipodoge');
-    let capipepoInput = document.getElementById('capipepo');
-    let ratigueyaInput = document.getElementById('ratigueya');
-
-    /* For Atack Section */
-    let playerPonAtackCard = document.getElementById('playerPonAtackMode')
-
-    /* Player Mokepon Choice */
-    let playerPonName = document.getElementById('playerPon');
-
     if (hipodogeInput.checked == true) {
         playerPonName.innerHTML = 'Hipodoge (tú)'
         
@@ -295,31 +264,22 @@ function playerPonChoice() // 👩🏻 Player choice
         issueStyle(playerPonButton);
     }
 }
-
 function issueStyle(element) {
     element.className = 'issue';
 }
-
 function cleanMessages(messageId, buttonId) {
     
     /* Clean messages */
     messageId.innerHTML = '';
     buttonId.classList.remove('issue')
 }
-
 function displayAtackSection()
 {
-    let atackSection = document.getElementById('chooseAtack');
     atackSection.style.display = 'grid';
-
-    let chooseSection = document.getElementById('choosePon');
     chooseSection.style.display = 'none';
 }
-
 function enemyPonChoice()  // 👤 Enemy Choice
 {
-    let enemyPonAtackCard = document.getElementById('enemyPonAtackMode')
-    let enemyPonName = document.getElementById('enemyPon');
     let randomPon = random(3,1);
 
     if (randomPon == 1) {
@@ -336,7 +296,6 @@ function enemyPonChoice()  // 👤 Enemy Choice
         enemyPonAtackCard.style.transform = "scaleX(-1)";
     }
 }
-
 function reboot() 
 {
     location.reload()
