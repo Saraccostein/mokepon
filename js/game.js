@@ -1,6 +1,6 @@
 /* 🕹️ Game start */
 const hipodogePng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_hipodoge_attack.png'
-const capipepoPng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_capipepo_attack.png'
+const capipepoPng = "assets/capipepo.png"
 const ratigueyaPng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_ratigueya_attack.png'
 
 window.addEventListener('load', start);
@@ -63,6 +63,21 @@ let enemyLife = 3;
 let gamesWon = 0;
 let gamesLoose = 0;
 let gamesTie = 0;
+
+class Mokepon {
+    constructor(name, photo, life) {
+        this.name = name
+        this.photo = photo
+        this.life = life
+    }
+}
+
+let mokepones = []
+let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 3);
+let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 3);
+let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 3);
+mokepones.push(hipodoge, capipepo, ratigueya)
+console.log(mokepones)
 
 hipodogeLabel.addEventListener('click', hipodogeFocus);
 capipepoLabel.addEventListener('click', capipepoFocus);
