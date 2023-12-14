@@ -7,6 +7,8 @@ window.addEventListener('load', start);
 
 const playerPonButton = document.getElementById('choosePonButton');
 
+const cardsContainer = document.getElementById('ponButtons');
+
 // Elements
 const elementsImput = document.getElementById('elementsToAtack');
 const fireInput = document.getElementById('fire');
@@ -14,14 +16,8 @@ const waterInput = document.getElementById('water');
 const earthInput = document.getElementById('earth');
 
 /* Monsters */
-const hipodogeLabel = document.getElementById('hipodoge_label');
-const capipepoLabel = document.getElementById('capipepo_label');
-const ratigueyaLabel = document.getElementById('ratigueya_label');
 const choosePonInteractiveMessage = document.getElementById('choosePonMessages');
 
-const hipodogeInput = document.getElementById('hipodoge');
-const capipepoInput = document.getElementById('capipepo');
-const ratigueyaInput = document.getElementById('ratigueya');
 const enemyPonName = document.getElementById('enemyPon');
 const playerPonName = document.getElementById('playerPon');
 
@@ -47,28 +43,34 @@ const victories = document.getElementById('victories');
 const defeats = document.getElementById('defeats');
 const messagesSection = document.getElementById('log');
 const rebootSection = document.getElementById('reboot');
-
 const logText = document.getElementById('result');
 
 /* 🐾 Pon Choice */
+let mokeponesAvailable
 let selectionConfirmation = false;
 
 /* 🥊 Atacks */
 let playerAtack;
 let enemyAtack;
-
 let playerLife = 3;
 let enemyLife = 3;
-
 let gamesWon = 0;
 let gamesLoose = 0;
 let gamesTie = 0;
+
+let hipodogeInput;
+let capipepoInput;
+let ratigueyaInput;
+let hipodogeLabel;
+let capipepoLabel;
+let ratigueyaLabel;
 
 class Mokepon {
     constructor(name, photo, life) {
         this.name = name
         this.photo = photo
         this.life = life
+        this.attacks = []
     }
 }
 
@@ -77,17 +79,58 @@ let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 3);
 let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 3);
 let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 3);
 mokepones.push(hipodoge, capipepo, ratigueya)
-console.log(mokepones)
 
-hipodogeLabel.addEventListener('click', hipodogeFocus);
-capipepoLabel.addEventListener('click', capipepoFocus);
-ratigueyaLabel.addEventListener('click', ratigueyaFocus);
+hipodoge.attacks.push(
+    {name: '💥', id: 'hit'},
+    {name: '🛡️', id: 'shield'},
+    {name: '💧', id: 'water'},
+    {name: '🌊', id: 'tsunami'},
+    {name: '❄️', id: 'snow'}
+);
+
+capipepo.attacks.push(
+    {name: '💥', id: 'hit'},
+    {name: '🛡️', id: 'shield'},
+    {name: '🌱', id: 'earth'},
+    {name: '🍃', id: 'blades'},
+    {name: '☘️', id: 'fortune'}
+);
+
+ratigueya.attacks.push(
+    {name: '💥', id: 'hit'},
+    {name: '🛡️', id: 'shield'},
+    {name: '🔥', id: 'earth'},
+    {name: '🌋', id: 'volcano'},
+    {name: '❤️‍🔥', id: 'self-esteem'}
+);
+
+mokepones.push();
 
 function start()
 {
     atackSection.style.display = 'none';
     messagesSection.style.visibility = 'hidden';
     rebootSection.style.visibility = 'hidden';
+
+    mokepones.forEach((mokepon) => {
+        mokeponesAvailable = `
+        <input type="radio" name="myPon" id=${mokepon.name} />
+    
+        <label for=${mokepon.name} id=${mokepon.name + '_label'} class="ponLabel">
+            <img src=${mokepon.photo} alt=${mokepon.name}>
+            <p>Hipodoge</p>
+        </label>
+        `
+        cardsContainer.innerHTML += mokeponesAvailable;
+
+        hipodogeInput = document.getElementById('Hipodoge');
+        capipepoInput = document.getElementById('Capipepo');
+        ratigueyaInput = document.getElementById('Ratigueya');
+
+        hipodogeLabel = document.getElementById('Hipodoge_label');
+        capipepoLabel = document.getElementById('Capipepo_label');
+        ratigueyaLabel = document.getElementById('Ratigueya_label');
+    });
 
     playerPonButton.addEventListener('click', playerPonChoice);
 
@@ -103,8 +146,12 @@ function start()
     earthInput.addEventListener('click', earthAtack);
 
     // Reboot Game 🔄️
-    let reload = document.getElementById('reboot_button');
+    const reload = document.getElementById('reboot_button');
     reload.addEventListener('click', reboot);
+
+    hipodogeLabel.addEventListener('click', hipodogeFocus);
+    capipepoLabel.addEventListener('click', capipepoFocus);
+    ratigueyaLabel.addEventListener('click', ratigueyaFocus);
 }
 function random(max, min)
 {
