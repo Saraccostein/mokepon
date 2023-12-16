@@ -293,8 +293,11 @@ function ratigueyaFocus()
 }
 function playerPonChoice() // 👩🏻 Player choice
 {
-    if (hipodogeInput.checked == true) {
-        playerPonName.innerHTML = 'Hipodoge (tú)'
+
+    let you = ' (tú)'
+
+    if (hipodogeInput.checked) {
+        playerPonName.innerHTML = hipodogeInput.id + you;
         
         selectionConfirmation = true;
         enemyPonChoice();
@@ -303,16 +306,16 @@ function playerPonChoice() // 👩🏻 Player choice
         playerPonAtackCard.style.transform = "scaleX(-1)";
         displayAtackSection();
 
-    } else if (capipepoInput.checked == true) {
-        playerPonName.innerHTML = 'Capipepo (tú)'
+    } else if (capipepoInput.checked) {
+        playerPonName.innerHTML = capipepoInput.id + you;
         selectionConfirmation = true;
         enemyPonChoice();
 
         playerPonAtackCard.src = capipepoPng;
         displayAtackSection();
 
-    } else if (ratigueyaInput.checked == true) {
-        playerPonName.innerHTML = 'Ratigueya (tú)'
+    } else if (ratigueyaInput.checked) {
+        playerPonName.innerHTML = ratigueyaInput.id + you;
         selectionConfirmation = true;
         enemyPonChoice();
 
@@ -342,21 +345,10 @@ function displayAtackSection()
 }
 function enemyPonChoice()  // 👤 Enemy Choice
 {
-    let randomPon = random(3,1);
+    let randomPon = random(mokepones.length , 0);
 
-    if (randomPon == 1) {
-        enemyPonName.innerHTML = 'Hipodoge';
-        enemyPonAtackCard.src = hipodogePng;
-
-    } else if (randomPon == 2) {
-        enemyPonName.innerHTML = 'Capipepo';
-        enemyPonAtackCard.src = capipepoPng;
-
-    } else {
-        enemyPonName.innerHTML = 'Ratigueya';
-        enemyPonAtackCard.src = ratigueyaPng;
-        enemyPonAtackCard.style.transform = "scaleX(-1)";
-    }
+    enemyPonName.innerHTML = mokepones[randomPon].name;
+    enemyPonAtackCard.src = mokepones[randomPon].photo;
 }
 function reboot() 
 {
