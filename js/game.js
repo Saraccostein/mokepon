@@ -1,8 +1,4 @@
 /* 🕹️ Game start */
-const hipodogePng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_hipodoge_attack.png'
-const capipepoPng = "assets/capipepo.png"
-const ratigueyaPng = 'https://raw.githubusercontent.com/platzi/curso-programacion-basica/35-assets-mokepones/programar/mokepon/assets/mokepons_mokepon_ratigueya_attack.png'
-
 window.addEventListener('load', start);
 
 const playerPonButton = document.getElementById('choosePonButton');
