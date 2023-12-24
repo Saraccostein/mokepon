@@ -2,27 +2,20 @@
 window.addEventListener('load', start);
 
 const playerPonButton = document.getElementById('choosePonButton');
-
 const cardsContainer = document.getElementById('ponButtons');
 
-// Elements
-const elementsImput = document.getElementById('elementsToAtack');
-const fireInput = document.getElementById('fire');
-const waterInput = document.getElementById('water');
-const earthInput = document.getElementById('earth');
+const elementsContainer = document.getElementById('elementsToAttack');
 
-/* Monsters */
 const choosePonInteractiveMessage = document.getElementById('choosePonMessages');
-
 const enemyPonName = document.getElementById('enemyPon');
 const playerPonName = document.getElementById('playerPon');
 
-/* For Atack Section */
-const playerPonAtackCard = document.getElementById('playerPonAtackMode');
-const enemyPonAtackCard = document.getElementById('enemyPonAtackMode');
+/* For Attack Section */
+const playerPonAttackCard = document.getElementById('playerPonAttackMode');
+const enemyPonAttackCard = document.getElementById('enemyPonAttackMode');
 
 const chooseSection = document.getElementById("choosePon");
-const atackSection = document.getElementById('chooseAtack');
+const attackSection = document.getElementById('chooseAttack');
 
 const playerhearts = [
     document.getElementById('playerPonHeart-0'),
@@ -42,24 +35,37 @@ const rebootSection = document.getElementById('reboot');
 const logText = document.getElementById('result');
 
 /* 🐾 Pon Choice */
-let mokeponesAvailable
+let mokeponesAvailable;
+let playerAttacksButtons;
 let selectionConfirmation = false;
 
-/* 🥊 Atacks */
-let playerAtack;
-let enemyAtack;
+/* 🥊 Attacks */
+let playerAttacks = [];
+let enemyAttacks = [];
+let playerSequence = [];
+
 let playerLife = 3;
 let enemyLife = 3;
 let gamesWon = 0;
 let gamesLoose = 0;
 let gamesTie = 0;
 
+let attackButtons = [];
+let playerPon;
+let enemyPon;
 let hipodogeInput;
 let capipepoInput;
 let ratigueyaInput;
 let hipodogeLabel;
 let capipepoLabel;
 let ratigueyaLabel;
+
+let fireInput;
+let waterInput;
+let earthInput;
+
+    // Reboot Game 🔄️
+const reload = document.getElementById('reboot_button');
 
 class Mokepon {
     constructor(name, photo, life) {
@@ -77,34 +83,32 @@ let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 3);
 mokepones.push(hipodoge, capipepo, ratigueya)
 
 hipodoge.attacks.push(
-    {name: '💥', id: 'hit'},
-    {name: '🛡️', id: 'shield'},
-    {name: '💧', id: 'water'},
-    {name: '🌊', id: 'tsunami'},
-    {name: '❄️', id: 'snow'}
+    {name: '💥', id: 'hit', img: 'assets/hit.svg', class: 'normal', type: 'fuego 🔥'},
+    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'normal', type: 'tierra 🌱'},
+    {name: '💧', id: 'water', img: 'assets/water.svg', class: 'water', type: 'agua 💧'},
+    {name: '🌊', id: 'tsunami', img: 'assets/tsunami.svg', class: 'water', type: 'agua 💧'},
+    {name: '❄️', id: 'snow', img: 'assets/snow.svg', class: 'water', type: 'agua 💧'}
 );
 
 capipepo.attacks.push(
-    {name: '💥', id: 'hit'},
-    {name: '🛡️', id: 'shield'},
-    {name: '🌱', id: 'earth'},
-    {name: '🍃', id: 'blades'},
-    {name: '☘️', id: 'fortune'}
+    {name: '💥', id: 'hit', img: 'assets/hit.svg', class: 'normal', type: 'agua 💧'},
+    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'normal', type: 'fuego 🔥'},
+    {name: '🌱', id: 'earth', img: 'assets/earth.svg', class: 'earth', type: 'tierra 🌱'},
+    {name: '🍃', id: 'blades', img: 'assets/blades.svg', class: 'earth', type: 'tierra 🌱'},
+    {name: '☘️', id: 'fortune', img: 'assets/fortune.svg', class: 'earth', type: 'tierra 🌱'}
 );
 
 ratigueya.attacks.push(
-    {name: '💥', id: 'hit'},
-    {name: '🛡️', id: 'shield'},
-    {name: '🔥', id: 'earth'},
-    {name: '🌋', id: 'volcano'},
-    {name: '❤️‍🔥', id: 'self-esteem'}
+    {name: '💥', id: 'hit', img: 'assets/hit.svg', class: 'normal', type: 'tierra 🌱'},
+    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'normal', type: 'agua 💧'},
+    {name: '🔥', id: 'fire', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
+    {name: '🌋', id: 'volcano', img: 'assets/volcano.svg', class: 'fire', type: 'fuego 🔥'},
+    {name: '❤️‍🔥', id: 'self-esteem', img: 'assets/self_estreem.svg', class: 'fire', type: 'fuego 🔥'}
 );
-
-mokepones.push();
 
 function start()
 {
-    atackSection.style.display = 'none';
+    attackSection.style.display = 'none';
     messagesSection.style.visibility = 'hidden';
     rebootSection.style.visibility = 'hidden';
 
@@ -114,9 +118,10 @@ function start()
     
         <label for=${mokepon.name} id=${mokepon.name + '_label'} class="ponLabel">
             <img src=${mokepon.photo} alt=${mokepon.name}>
-            <p>Hipodoge</p>
+            <p>${mokepon.name}</p>
         </label>
-        `
+        `;
+
         cardsContainer.innerHTML += mokeponesAvailable;
 
         hipodogeInput = document.getElementById('Hipodoge');
@@ -130,83 +135,56 @@ function start()
 
     playerPonButton.addEventListener('click', playerPonChoice);
 
-    /* 👩🏻 Player Atack */
-    
-    // 🔥 Fire
-    fireInput.addEventListener('click', fireAtack);
-
-    // 💧 Water
-    waterInput.addEventListener('click', waterAtack);
-
-    // 🌱 Earth
-    earthInput.addEventListener('click', earthAtack);
-
-    // Reboot Game 🔄️
-    const reload = document.getElementById('reboot_button');
-    reload.addEventListener('click', reboot);
-
     hipodogeLabel.addEventListener('click', hipodogeFocus);
     capipepoLabel.addEventListener('click', capipepoFocus);
     ratigueyaLabel.addEventListener('click', ratigueyaFocus);
+
+    reload.addEventListener('click', reboot);
 }
 function random(max, min)
 {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-function fireAtack()
+function enemyAttackChoice()
 {
-    playerAtack = 'fuego 🔥';
-    enemyAtackChoice();
-    messagesSection.style.visibility = 'visible';
-}
-function waterAtack()
-{
-    playerAtack = 'agua 💧';
-    enemyAtackChoice();
-    messagesSection.style.visibility = 'visible';
-}
-function earthAtack()
-{
-    playerAtack = 'tierra 🌱';
-    enemyAtackChoice();
-    messagesSection.style.visibility = 'visible';    
-}
-function enemyAtackChoice()
-{
-    let randomAtack = random(3,1);
+    let randomAttack = random(3,1);
 
-    if (randomAtack == 1) {
-        enemyAtack = 'fuego 🔥';
+    if (randomAttack == 1) {
+        enemyAttack = 'fuego 🔥';
 
-    } else if (randomAtack == 2) {
-        enemyAtack = 'agua 💧';
+    } else if (randomAttack == 2) {
+        enemyAttack = 'agua 💧';
 
-    } else if (randomAtack = 3) {
-        enemyAtack = 'tierra 🌱';
+    } else if (randomAttack = 3) {
+        enemyAttack = 'tierra 🌱';
     }
-    battle();
+    battleInit();
+}
+function battleInit() 
+{ 
+
 }
 function battle()
 {
-    if (playerAtack == 'fuego 🔥' && enemyAtack == 'tierra 🌱') {
+    if (playerAttack == 'fuego 🔥' && enemyAttack == 'tierra 🌱') {
         message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
         gamesWon++;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
     
-    } else if (playerAtack == 'agua 💧' && enemyAtack == 'fuego 🔥') {
+    } else if (playerAttack == 'agua 💧' && enemyAttack == 'fuego 🔥') {
         message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
         gamesWon++;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
     
-    } else if (playerAtack == 'tierra 🌱' && enemyAtack == 'agua 💧') {
+    } else if (playerAttack == 'tierra 🌱' && enemyAttack == 'agua 💧') {
         message(logText, 'Acertaste el ataque.', 'win');
         enemyLife--;
         gamesWon++;
         hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
     
-    } else if (playerAtack == enemyAtack) {
+    } else if (playerAttack == enemyAttack) {
         message(logText, 'Ha sido un empate.', 'tie');
         gamesTie ++;
     
@@ -219,7 +197,8 @@ function battle()
     victories.innerHTML = gamesWon;
     defeats.innerHTML = gamesLoose;
 }
-function message(id, message, activeClass) {
+function message(id, message, activeClass) 
+{
     id.innerHTML = message;
     if (activeClass == 'win') {
         id.classList.add('win');
@@ -237,7 +216,8 @@ function message(id, message, activeClass) {
         id.classList.remove('win');
     }
 }
-function hurt(fighterLife, fighterHearts, message) {
+function hurt(fighterLife, fighterHearts, message) 
+{
 
     if (fighterLife == 2) {
         fighterHearts[0].src = 'assets/heart.svg';
@@ -255,15 +235,9 @@ function hurt(fighterLife, fighterHearts, message) {
         fighterHearts[2].src = 'assets/heart_gray.svg';
 
         logText.innerHTML = message;
-        disableButtons();
     }
 }
 function disableButtons() {
-
-    fireInput.disabled = true;
-    waterInput.disabled = true;
-    earthInput.disabled = true;
-    elementsImput.style.visibility = 'hidden';
     rebootSection.style.visibility = 'visible';
 }
 function hipodogeFocus()
@@ -289,41 +263,82 @@ function ratigueyaFocus()
 }
 function playerPonChoice() // 👩🏻 Player choice
 {
-
     let you = ' (tú)'
 
-    if (hipodogeInput.checked) {
+    if (hipodogeInput.checked == true) {
         playerPonName.innerHTML = hipodogeInput.id + you;
+        playerPon = hipodogeInput.id;
         
         selectionConfirmation = true;
-        enemyPonChoice();
 
-        playerPonAtackCard.src = hipodogePng;
-        playerPonAtackCard.style.transform = "scaleX(-1)";
-        displayAtackSection();
+        playerPonAttackCard.src = hipodoge.photo;
+        playerPonAttackCard.style.transform = "scaleX(-1)";
 
-    } else if (capipepoInput.checked) {
+    } else if (capipepoInput.checked == true) {
         playerPonName.innerHTML = capipepoInput.id + you;
+        playerPon = capipepoInput.id;
         selectionConfirmation = true;
-        enemyPonChoice();
 
-        playerPonAtackCard.src = capipepoPng;
-        displayAtackSection();
+        playerPonAttackCard.src = capipepo.photo;
 
-    } else if (ratigueyaInput.checked) {
+    } else if (ratigueyaInput.checked == true) {
         playerPonName.innerHTML = ratigueyaInput.id + you;
+        playerPon = ratigueyaInput.id;
         selectionConfirmation = true;
-        enemyPonChoice();
 
-        playerPonAtackCard.src = ratigueyaPng;
-        displayAtackSection();
+        playerPonAttackCard.src = ratigueya.photo;
 
     } else {
         choosePonInteractiveMessage.style.color = 'var(--red)';
-        choosePonInteractiveMessage.innerHTML = 'Selecciona tu mokepon.';
+        choosePonInteractiveMessage.innerHTML = 'Selecciona tu mokepon';
 
         issueStyle(playerPonButton);
     }
+
+    playerAttacks = extractAttacks(playerPon);
+    
+    enemyPonChoice();
+    enemyAttacks = extractAttacks(enemyPon);
+    console.log(enemyAttacks);
+
+    showAttacks(playerAttacks);
+
+    displayAttackSection();
+    attackButtons = document.querySelectorAll('.elementButton');
+    console.log(attackButtons);
+    attackSequence();   
+}
+function extractAttacks(pon) {
+    let attacks;
+    for (let index = 0; index < mokepones.length; index++) {
+        if (pon === mokepones[index].name) {
+            attacks = mokepones[index].attacks;
+        }
+    }
+    return attacks;
+}
+function showAttacks(attacks) {
+    attacks.forEach((attack) => {
+        playerAttacksButtons = `
+        <button class="elementButton ${attack.class}" id=${attack.id}>  <img draggable="false" src=${attack.img} type="img/svg"> </button>
+        `;
+
+        elementsContainer.innerHTML += playerAttacksButtons;
+    });
+}
+function attackSequence()
+{
+    attackButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            let target = event.target.id;
+            console.log(target)
+            playerSequence.push(playerAttacks.find(keyValue => keyValue['id'] === target)['type'])
+            button.disabled = true;
+            button.classList.add('disable');
+            console.log(playerSequence)
+        })
+        
+    });
 }
 function issueStyle(element) {
     element.className = 'issue';
@@ -334,19 +349,24 @@ function cleanMessages(messageId, buttonId) {
     messageId.innerHTML = '';
     buttonId.classList.remove('issue')
 }
-function displayAtackSection()
+function displayAttackSection()
 {
-    atackSection.style.display = 'grid';
+    attackSection.style.display = 'grid';
     chooseSection.style.display = 'none';
 }
 function enemyPonChoice()  // 👤 Enemy Choice
 {
-    let randomPon = random(mokepones.length , 0);
+    let randomNum = random(mokepones.length -1, 0)
+    enemyPon = mokepones[randomNum].name;
+    enemyPonName.innerHTML = enemyPon;
+    enemyPonAttackCard.src = mokepones[randomNum].photo;
 
-    enemyPonName.innerHTML = mokepones[randomPon].name;
-    enemyPonAtackCard.src = mokepones[randomPon].photo;
+    if (enemyPon === 'Ratigueya') {
+        enemyPonAttackCard.style.transform = "scaleX(-1)";
+    }
 }
 function reboot() 
 {
-    location.reload()
+    location.reload();
 }
+// messagesSection.style.visibility = 'visible';

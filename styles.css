@@ -137,9 +137,9 @@ button.issue:hover:active {
     color: var(--orange);
 }
 
-/* chooseAtack Section */
+/* chooseAttack Section */
 
-#chooseAtack {
+#chooseAttack {
     width: 24rem;
     margin: auto;
     grid-template-rows: 12% 6% 46% 10% 8% 18%;
@@ -147,7 +147,7 @@ button.issue:hover:active {
     justify-items: center;
     align-items: center
 }
-#chooseAtack h2 {
+#chooseAttack h2 {
     grid-row: 1 / 2;
     grid-column: 1 / 3;
 }
@@ -159,35 +159,33 @@ button.issue:hover:active {
     font-style: italic;
     font-size: 0.85rem;
 }
-#fire:hover img {
-    content: url(assets/fire.svg);
-}
-#fire:hover {
+.fire:hover {
     border-color: var(--red);
 }
-#fire:hover:active {
+.fire:hover:active {
     background-color: var(--low_opacity_red);
 }
-#water {
-    margin: auto 0.5rem auto 0.5rem;
-}
-#water:hover img {
-    content: url(assets/water.svg);
-}
-#water:hover {
+.water:hover {
     border-color: var(--cyan);
 }
-#water:hover:active {
+.water:hover:active {
     background-color: var(--low_opacity_cyan);
 }
-#earth:hover img {
-    content: url(assets/plant.svg);
-}
-#earth:hover {
+.earth:hover {
     border-color: var(--green);
 }
-#earth:hover:active{
+.earth:hover:active{
     background-color: var(--low_opacity_green);
+}
+.disable {
+    border-color: var(--low_opacity_deep);
+}
+.disable:hover {
+    border-color: var(--gray);
+}
+.disable:hover:active{
+    border-color: var(--low_opacity_white);
+    background-color: transparent;
 }
 
 /* Messages */
@@ -261,6 +259,10 @@ span {
 .elementButton {
     width: 3rem;
 }
+.elementButton > img {
+    pointer-events: none;
+}
+
 #lifes {
     display: flex;
     flex-direction: column;
@@ -271,14 +273,14 @@ span {
     background-color: var(--deep_blue);
     color: var(--background_dark);
 }
-.atack_grid {
+.attack_grid {
     display: grid;
     justify-content: space-between;
 }
-#playerPonAtackMode {
+#playerPonAttackMode {
     width: 10rem;
 }
-#enemyPonAtackMode {
+#enemyPonAttackMode {
     width: 10rem;
 }
 .attackCard {
@@ -290,11 +292,11 @@ span {
     transition: all 0.05s;
     box-sizing: border-box;
 }
-#playerAtackCard {
+#playerAttackCard {
     grid-column: 1 / 2;
     grid-row: 3 / 4;
 }
-#enemyAtackCard {
+#enemyAttackCard {
     grid-column: 2 / 3;
     grid-row: 3 / 4;
 }
@@ -310,7 +312,7 @@ span {
 #enemyPonLife {
     grid-row: 4 / 5 ;
 }
-#elementsToAtack {
+#elementsToAttack {
     grid-column: 1 / 3;
     grid-row: 6 / 7;
     margin: auto;
@@ -337,7 +339,7 @@ span {
     #ponButtons {
         flex-direction: column;
     }
-    #chooseAtack {
+    #chooseAttack {
         width: 70%;
         margin: auto;
     }
@@ -348,10 +350,10 @@ span {
         padding: 0;
         width: 95%;
     }
-    #playerPonAtackMode {
+    #playerPonAttackMode {
         width: 80%;
     }
-    #enemyPonAtackMode {
+    #enemyPonAttackMode {
         width: 80%;
     }
     #playerPonLife img {
