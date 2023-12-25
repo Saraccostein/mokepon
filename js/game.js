@@ -43,6 +43,7 @@ let selectionConfirmation = false;
 let playerAttacks = [];
 let enemyAttacks = [];
 let playerSequence = [];
+let enemySequence = [];
 
 let playerLife = 3;
 let enemyLife = 3;
@@ -218,7 +219,6 @@ function message(id, message, activeClass)
 }
 function hurt(fighterLife, fighterHearts, message) 
 {
-
     if (fighterLife == 2) {
         fighterHearts[0].src = 'assets/heart.svg';
         fighterHearts[1].src = 'assets/heart.svg';
@@ -268,7 +268,6 @@ function playerPonChoice() // 👩🏻 Player choice
     if (hipodogeInput.checked == true) {
         playerPonName.innerHTML = hipodogeInput.id + you;
         playerPon = hipodogeInput.id;
-        
         selectionConfirmation = true;
 
         playerPonAttackCard.src = hipodoge.photo;
@@ -297,16 +296,13 @@ function playerPonChoice() // 👩🏻 Player choice
 
     playerAttacks = extractAttacks(playerPon);
     
-    enemyPonChoice();
     enemyAttacks = extractAttacks(enemyPon);
-    console.log(enemyAttacks);
 
     showAttacks(playerAttacks);
 
     displayAttackSection();
     attackButtons = document.querySelectorAll('.elementButton');
-    console.log(attackButtons);
-    attackSequence();   
+    attackSequence();
 }
 function extractAttacks(pon) {
     let attacks;
@@ -331,7 +327,6 @@ function attackSequence()
     attackButtons.forEach((button) => {
         button.addEventListener('click', (event) => {
             let target = event.target.id;
-            console.log(target)
             playerSequence.push(playerAttacks.find(keyValue => keyValue['id'] === target)['type'])
             button.disabled = true;
             button.classList.add('disable');
@@ -339,6 +334,12 @@ function attackSequence()
         })
         
     });
+    let array = [];
+    for (let index = 0; index < enemyAttacks.length; index++) {
+        array.push(enemyAttacks[index].type);
+    }
+    enemySequence = array.sort(()=>Math.random()-0.5);
+
 }
 function issueStyle(element) {
     element.className = 'issue';
@@ -353,17 +354,6 @@ function displayAttackSection()
 {
     attackSection.style.display = 'grid';
     chooseSection.style.display = 'none';
-}
-function enemyPonChoice()  // 👤 Enemy Choice
-{
-    let randomNum = random(mokepones.length -1, 0)
-    enemyPon = mokepones[randomNum].name;
-    enemyPonName.innerHTML = enemyPon;
-    enemyPonAttackCard.src = mokepones[randomNum].photo;
-
-    if (enemyPon === 'Ratigueya') {
-        enemyPonAttackCard.style.transform = "scaleX(-1)";
-    }
 }
 function reboot() 
 {
