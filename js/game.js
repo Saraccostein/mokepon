@@ -294,12 +294,9 @@ function playerPonChoice() // 👩🏻 Player choice
         issueStyle(playerPonButton);
     }
 
+    enemyPonChoice();
     playerAttacks = extractAttacks(playerPon);
-    
-    enemyAttacks = extractAttacks(enemyPon);
-
     showAttacks(playerAttacks);
-
     displayAttackSection();
     attackButtons = document.querySelectorAll('.elementButton');
     attackSequence();
@@ -354,6 +351,19 @@ function displayAttackSection()
 {
     attackSection.style.display = 'grid';
     chooseSection.style.display = 'none';
+}
+function enemyPonChoice()  // 👤 Enemy Choice
+{
+    let randomNum = random(mokepones.length -1, 0)
+    enemyPon = mokepones[randomNum].name;
+    enemyPonName.innerHTML = enemyPon;
+    enemyPonAttackCard.src = mokepones[randomNum].photo;
+
+    if (enemyPon === 'Ratigueya') {
+        enemyPonAttackCard.style.transform = "scaleX(-1)";
+    }
+
+    enemyAttacks = extractAttacks(enemyPon);
 }
 function reboot() 
 {
