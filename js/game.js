@@ -148,8 +148,6 @@ function random(max, min)
 }
 function enemyAttackChoice()
 {
-    let randomAttack = random(3,1);
-
     if (randomAttack == 1) {
         enemyAttack = 'fuego 🔥';
 
@@ -163,7 +161,10 @@ function enemyAttackChoice()
 }
 function battleInit() 
 { 
-
+    if (playerAttacks.length === playerSequence.length) {
+        battle()
+        console.log('Iniciar combate')
+    }
 }
 function battle()
 {
@@ -294,12 +295,14 @@ function playerPonChoice() // 👩🏻 Player choice
         issueStyle(playerPonButton);
     }
 
-    enemyPonChoice();
-    playerAttacks = extractAttacks(playerPon);
-    showAttacks(playerAttacks);
-    displayAttackSection();
-    attackButtons = document.querySelectorAll('.elementButton');
-    attackSequence();
+    if (selectionConfirmation === true) {
+        enemyPonChoice();
+        playerAttacks = extractAttacks(playerPon);
+        showAttacks(playerAttacks);
+        displayAttackSection();
+        attackButtons = document.querySelectorAll('.elementButton');
+        attackSequence();
+    }
 }
 function extractAttacks(pon) {
     let attacks;
@@ -329,14 +332,7 @@ function attackSequence()
             button.classList.add('disable');
             console.log(playerSequence)
         })
-        
     });
-    let array = [];
-    for (let index = 0; index < enemyAttacks.length; index++) {
-        array.push(enemyAttacks[index].type);
-    }
-    enemySequence = array.sort(()=>Math.random()-0.5);
-
 }
 function issueStyle(element) {
     element.className = 'issue';
@@ -364,6 +360,13 @@ function enemyPonChoice()  // 👤 Enemy Choice
     }
 
     enemyAttacks = extractAttacks(enemyPon);
+
+    let array = [];
+    for (let index = 0; index < enemyAttacks.length; index++) {
+        array.push(enemyAttacks[index].type);
+    }
+    enemySequence = array.sort(()=>Math.random()-0.5);
+    console.log(enemySequence)
 }
 function reboot() 
 {
