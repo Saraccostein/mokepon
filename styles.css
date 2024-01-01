@@ -142,7 +142,7 @@ button.issue:hover:active {
 #chooseAttack {
     width: 24rem;
     margin: auto;
-    grid-template-rows: 2rem 16rem 3rem 5rem 8rem 4rem;
+    grid-template-rows: 3rem 15rem 3rem 5rem 8rem 4rem;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center
@@ -317,52 +317,6 @@ span {
     grid-row: 4 / 5;
     margin: auto;
 }
-
-@media (max-width: 414px) {
-    main {
-        margin: auto;
-    }
-    h1 {
-        font-size: 2rem;
-        margin: auto;
-    }
-    h2 {
-        font-size: 1.3rem;
-    }
-    .ponLabel {
-        width: 45%;
-        margin: auto;
-    }
-    .ponLabel img{
-        width: 80%;
-    }
-    #ponButtons {
-        flex-direction: column;
-    }
-    #chooseAttack {
-        width: 70%;
-        margin: auto;
-    }
-    .attackCard {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0;
-        width: 95%;
-    }
-    #playerPonAttackMode {
-        width: 80%;
-    }
-    #enemyPonAttackMode {
-        width: 80%;
-    }
-    #playerPonLife img {
-        width: 1.5rem;
-    }
-    #enemyPonLife img {
-        width: 1.5rem;
-    }
-}
 #attacks_log {
     display: flex;
     justify-content: center;
@@ -389,4 +343,55 @@ span {
     border-radius: 5px;
     padding: 0.35rem;
     margin: 0.25rem;
+}
+@media (max-width: 414px) {
+    main {
+        margin: 2rem auto auto auto;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    h2 {
+        font-size: 1.3rem;
+    }
+    .ponLabel {
+        width: 50%;
+        margin: auto;
+    }
+    .ponLabel img{
+        width: 85%;
+        padding: 0;
+    }
+    #ponButtons {
+        flex-direction: column;
+    }
+    #ponButtons p {
+        margin: 0;
+    }
+    #chooseAttack {
+        grid-template-rows: 3rem 15rem 3rem 7rem 4rem 3rem;
+        grid-gap: 0.8rem;
+        width: 90%;
+        margin: 0 3% 0 3%;
+    }
+    .attackCard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+    #playerPonAttackMode {
+        width: 95%;
+    }
+    #enemyPonAttackMode {
+        width: 95%;
+    }
+    #attacks_log {
+        grid-row: 4 / 5; 
+    }
+    #elementsToAttack {
+        grid-row: 5 / 6;
+        margin: auto;
+    }
+    
 }
