@@ -372,7 +372,7 @@ span {
         grid-template-rows: 3rem 15rem 3rem 7rem 4rem 3rem;
         grid-gap: 0.8rem;
         width: 90%;
-        margin: 0 3% 0 3%;
+        margin: auto;
     }
     .attackCard {
         display: flex;
