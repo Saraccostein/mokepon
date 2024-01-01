@@ -32,6 +32,7 @@ const victories = document.getElementById('victories');
 const defeats = document.getElementById('defeats');
 const messagesSection = document.getElementById('log');
 const rebootSection = document.getElementById('reboot');
+const attacksLog = document.getElementById('attacks_log');
 const logText = document.getElementById('result');
 
 /* 🐾 Pon Choice */
@@ -40,10 +41,12 @@ let playerAttacksButtons;
 let selectionConfirmation = false;
 
 /* 🥊 Attacks */
-let playerAttacks = [];
+let playerAttacks = 0;
 let enemyAttacks = [];
 let playerSequence = [];
 let enemySequence = [];
+let indexPlayerAttack;
+let indexEnemyAttack;
 
 let playerLife = 3;
 let enemyLife = 3;
@@ -51,6 +54,8 @@ let gamesWon = 0;
 let gamesLoose = 0;
 let gamesTie = 0;
 
+let chosenAttackLog;
+let logCounter = 0;
 let attackButtons = [];
 let playerPon;
 let enemyPon;
@@ -61,9 +66,10 @@ let hipodogeLabel;
 let capipepoLabel;
 let ratigueyaLabel;
 
-let fireInput;
-let waterInput;
-let earthInput;
+let waterColor = 'hsla(211, 20%, 30%, 1)';
+let earthColor = 'hsla(177, 18%, 28%, 1)';
+let fireColor = 'hsla(316, 14%, 26%, 1)';
+let normalColor = 'hsla( 60,  30%, 100%, 0.2)';
 
     // Reboot Game 🔄️
 const reload = document.getElementById('reboot_button');
@@ -146,61 +152,87 @@ function random(max, min)
 {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-function enemyAttackChoice()
+function battleInit()
 {
-    if (randomAttack == 1) {
-        enemyAttack = 'fuego 🔥';
-
-    } else if (randomAttack == 2) {
-        enemyAttack = 'agua 💧';
-
-    } else if (randomAttack = 3) {
-        enemyAttack = 'tierra 🌱';
-    }
-    battleInit();
-}
-function battleInit() 
-{ 
     if (playerAttacks.length === playerSequence.length) {
-        battle()
-        console.log('Iniciar combate')
+        battle();
     }
+}
+function saveResults(playerIndex, enemyIndex) 
+{
+    indexPlayerAttack = enemyAttacks[playerIndex].type;
+    indexEnemyAttack = enemyAttacks[enemyIndex].type;
 }
 function battle()
 {
-    if (playerAttack == 'fuego 🔥' && enemyAttack == 'tierra 🌱') {
-        message(logText, 'Acertaste el ataque.', 'win');
-        enemyLife--;
-        gamesWon++;
-        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
-    
-    } else if (playerAttack == 'agua 💧' && enemyAttack == 'fuego 🔥') {
-        message(logText, 'Acertaste el ataque.', 'win');
-        enemyLife--;
-        gamesWon++;
-        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
-    
-    } else if (playerAttack == 'tierra 🌱' && enemyAttack == 'agua 💧') {
-        message(logText, 'Acertaste el ataque.', 'win');
-        enemyLife--;
-        gamesWon++;
-        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
-    
-    } else if (playerAttack == enemyAttack) {
-        message(logText, 'Ha sido un empate.', 'tie');
-        gamesTie ++;
-    
-    } else {
-        message(logText, 'El oponente acertó.', 'loose');
-        playerLife--;
-        gamesLoose++;
-        hurt(playerLife, playerhearts, 'Perdiste la batalla 😓');
+    for (let index = 0; index < playerSequence.length; index++) {
+
+        const divLog = document.getElementById('log_' + index);
+        const enemyAttackImgId = document.getElementById('enemyAttackLog_' + index);
+        enemyAttackImgId.src = enemyAttacksImg[index];
+
+        let enemyLogColor;
+
+        if (enemyAttacksClass[index] === 'water') {
+            enemyLogColor = waterColor;
+        
+        } else if (enemyAttacksClass[index] === 'earth') {
+            enemyLogColor = earthColor;
+        
+        } else if (enemyAttacksClass[index] === 'fire') {
+            enemyLogColor = fireColor;
+        
+        } else {
+            enemyLogColor = normalColor;
+        }
+
+        enemyAttackImgId.style.backgroundColor = enemyLogColor;
+
+        if (playerSequence[index] === enemySequence[index]) {
+            divLog.style.border = '1px solid hsla(232,  14%, 31%, 1)';
+            saveResults(index, index);
+            gamesTie ++;
+
+        } else if (playerSequence[index] === 'agua 💧' && enemySequence[index] === 'fuego 🔥') {
+            divLog.style.border = '1px solid hsla(135,  94%, 65%, 0.8)';
+            saveResults(index, index);
+            enemyLife--;
+            gamesWon++;
+        
+        } else if (playerSequence[index] === 'tierra 🌱' && enemySequence[index] === 'agua 💧') {
+            divLog.style.border = '1px solid hsla(135,  94%, 65%, 0.8)';
+            saveResults(index, index);
+            enemyLife--;
+            gamesWon++;
+        
+        } else if (playerSequence[index] === 'fuego 🔥' && enemySequence[index] === 'tierra 🌱') {
+            divLog.style.border = '1px solid hsla(135,  94%, 65%, 0.8)';
+            saveResults(index, index);
+            enemyLife--;
+            gamesWon++;
+        
+        } else {
+            divLog.style.border = '1px solid hsla(0,   100%, 67%,   0.6)';
+            playerLife--;
+            gamesLoose++;
+        }
     }
-    victories.innerHTML = gamesWon;
-    defeats.innerHTML = gamesLoose;
+
+    /*
+        message(logText, 'Ha sido un empate.', 'tie');
+        message(logText, 'Acertaste el ataque.', 'win');
+        message(logText, 'El oponente acertó.', 'loose');
+
+        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
+        hurt(playerLife, playerhearts, 'Perdiste la batalla 😓');
+    */
+
+    rebootSection.style.visibility = 'visible';
 }
-function message(id, message, activeClass) 
+function message(id, message, activeClass)
 {
+    messagesSection.style.visibility = 'visible';
+
     id.innerHTML = message;
     if (activeClass == 'win') {
         id.classList.add('win');
@@ -228,7 +260,7 @@ function hurt(fighterLife, fighterHearts, message)
     } else if (fighterLife == 1) {
         fighterHearts[0].src = 'assets/heart.svg';
         fighterHearts[1].src = 'assets/heart_gray.svg';
-        fighterHearts[2].src = 'assets/heart_gray.svg'; 
+        fighterHearts[2].src = 'assets/heart_gray.svg';
 
     } else {
         fighterHearts[0].src = 'assets/heart_gray.svg';
@@ -237,9 +269,6 @@ function hurt(fighterLife, fighterHearts, message)
 
         logText.innerHTML = message;
     }
-}
-function disableButtons() {
-    rebootSection.style.visibility = 'visible';
 }
 function hipodogeFocus()
 {
@@ -304,7 +333,8 @@ function playerPonChoice() // 👩🏻 Player choice
         attackSequence();
     }
 }
-function extractAttacks(pon) {
+function extractAttacks(pon)
+{
     let attacks;
     for (let index = 0; index < mokepones.length; index++) {
         if (pon === mokepones[index].name) {
@@ -328,13 +358,61 @@ function attackSequence()
         button.addEventListener('click', (event) => {
             let target = event.target.id;
             playerSequence.push(playerAttacks.find(keyValue => keyValue['id'] === target)['type'])
+            console.log(playerSequence)
             button.disabled = true;
             button.classList.add('disable');
-            console.log(playerSequence)
+            attackLogging(target);
+            battleInit();
         })
     });
 }
-function issueStyle(element) {
+function queryInAttack(attacksArray, query, id, output) {
+    attacksArray.find(keyValue => keyValue[query] === id)[output]
+}
+function attackLogging(element)
+{
+    const div = document.createElement("div");
+    const playerLogImg = document.createElement("img");   
+    const enemyLogImg = document.createElement("img");
+
+    div.id = "log_" + logCounter;
+
+    playerLogImg.id = "playerAttackLog_" + logCounter;
+    playerLogImg.src = playerAttacks.find(keyValue => keyValue['id'] === element)['img'];
+
+    enemyLogImg.id = "enemyAttackLog_" + logCounter;
+    enemyLogImg.src = "assets/question_mark.svg";
+    playerLogImg.style.border = '1px solid transparent';
+
+
+    div.appendChild(playerLogImg);
+    div.appendChild(enemyLogImg);
+    attacksLog.appendChild(div);
+
+    div.classList.add("log");
+
+    let playerLogColor;
+
+    if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'water') {
+        playerLogColor = waterColor;
+
+    } else if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'earth') {
+        playerLogColor = earthColor;
+
+    } else if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'fire') {
+        playerLogColor = fireColor;
+    
+    } else {
+        playerLogColor = normalColor;
+    }
+
+    playerLogImg.style.backgroundColor = playerLogColor;
+    logCounter ++;
+
+
+}
+function issueStyle(element)
+{
     element.className = 'issue';
 }
 function cleanMessages(messageId, buttonId) {
@@ -348,6 +426,8 @@ function displayAttackSection()
     attackSection.style.display = 'grid';
     chooseSection.style.display = 'none';
 }
+let enemyAttacksImg = [];
+let enemyAttacksClass = []
 function enemyPonChoice()  // 👤 Enemy Choice
 {
     let randomNum = random(mokepones.length -1, 0)
@@ -363,13 +443,17 @@ function enemyPonChoice()  // 👤 Enemy Choice
 
     let array = [];
     for (let index = 0; index < enemyAttacks.length; index++) {
-        array.push(enemyAttacks[index].type);
+
+        array.push(enemyAttacks[index].id);
     }
-    enemySequence = array.sort(()=>Math.random()-0.5);
-    console.log(enemySequence)
+    let ids = array.sort(()=>Math.random()-0.5);
+    for (let index = 0; index < enemyAttacks.length; index++) {
+        enemyAttacksImg.push(enemyAttacks.find(keyValue => keyValue['id'] === ids[index])['img'])
+        enemySequence.push(enemyAttacks.find(keyValue => keyValue['id'] === ids[index])['type'])
+        enemyAttacksClass.push(enemyAttacks.find(keyValue => keyValue['id'] === ids[index])['class'])
+    }
 }
 function reboot() 
 {
     location.reload();
 }
-// messagesSection.style.visibility = 'visible';
