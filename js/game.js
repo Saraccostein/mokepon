@@ -66,10 +66,10 @@ let hipodogeLabel;
 let capipepoLabel;
 let ratigueyaLabel;
 
-let waterColor = 'hsla(211, 20%, 30%, 1)';
-let earthColor = 'hsla(177, 18%, 28%, 1)';
-let fireColor = 'hsla(316, 14%, 26%, 1)';
-let normalColor = 'hsla( 60,  30%, 100%, 0.2)';
+const waterColor = 'hsla(211, 20%, 30%, 1)';
+const earthColor = 'hsla(177, 18%, 28%, 1)';
+const fireColor = 'hsla(316, 14%, 26%, 1)';
+const normalColor = 'hsla(231, 6%, 75%, 1)';
 
     // Reboot Game 🔄️
 const reload = document.getElementById('reboot_button');
@@ -172,50 +172,61 @@ function battle()
         enemyAttackImgId.src = enemyAttacksImg[index];
 
         let enemyLogColor;
+        let enemyBorderLogColor;
 
         if (enemyAttacksClass[index] === 'water') {
             enemyLogColor = waterColor;
+            enemyBorderLogColor = waterBorderColor;
         
         } else if (enemyAttacksClass[index] === 'earth') {
             enemyLogColor = earthColor;
+            enemyBorderLogColor = earthBorderColor;
         
         } else if (enemyAttacksClass[index] === 'fire') {
             enemyLogColor = fireColor;
+            enemyBorderLogColor = fireBorderColor;
         
         } else {
             enemyLogColor = normalColor;
+            enemyBorderLogColor = normalBorderColor;
         }
 
         enemyAttackImgId.style.backgroundColor = enemyLogColor;
+        enemyAttackImgId.style.borderColor = enemyBorderLogColor;
 
         if (playerSequence[index] === enemySequence[index]) {
-            divLog.style.border = '1px solid hsla(232,  14%, 31%, 1)';
             saveResults(index, index);
             gamesTie ++;
 
         } else if (playerSequence[index] === 'agua 💧' && enemySequence[index] === 'fuego 🔥') {
-            divLog.style.border = '1px solid hsla(135,  94%, 65%, 0.8)';
+            divLog.style.border = '2px solid hsla(135,  94%, 65%, 0.8)';
             saveResults(index, index);
-            enemyLife--;
             gamesWon++;
         
         } else if (playerSequence[index] === 'tierra 🌱' && enemySequence[index] === 'agua 💧') {
-            divLog.style.border = '1px solid hsla(135,  94%, 65%, 0.8)';
+            divLog.style.border = '2px solid hsla(135,  94%, 65%, 0.8)';
             saveResults(index, index);
-            enemyLife--;
             gamesWon++;
         
         } else if (playerSequence[index] === 'fuego 🔥' && enemySequence[index] === 'tierra 🌱') {
-            divLog.style.border = '1px solid hsla(135,  94%, 65%, 0.8)';
+            divLog.style.border = '2px solid hsla(135,  94%, 65%, 0.8)';
             saveResults(index, index);
-            enemyLife--;
             gamesWon++;
         
         } else {
-            divLog.style.border = '1px solid hsla(0,   100%, 67%,   0.6)';
-            playerLife--;
+            divLog.style.border = '2px solid hsla(0,   100%, 67%,   0.8)';
             gamesLoose++;
         }
+    }
+
+    if (gamesWon === gamesLoose) {
+        message(logText, '¡Empate!', 'tie');
+
+    } else if (gamesWon > gamesLoose) {
+        message(logText, '¡Ganaste la batalla!', 'win');
+    
+    } else { 
+        message(logText, '¡Perdiste la batalla!', 'loose');
     }
 
     /*
@@ -248,26 +259,6 @@ function message(id, message, activeClass)
         id.classList.add('tie');
         id.classList.remove('loose');
         id.classList.remove('win');
-    }
-}
-function hurt(fighterLife, fighterHearts, message) 
-{
-    if (fighterLife == 2) {
-        fighterHearts[0].src = 'assets/heart.svg';
-        fighterHearts[1].src = 'assets/heart.svg';
-        fighterHearts[2].src = 'assets/heart_gray.svg';
-    
-    } else if (fighterLife == 1) {
-        fighterHearts[0].src = 'assets/heart.svg';
-        fighterHearts[1].src = 'assets/heart_gray.svg';
-        fighterHearts[2].src = 'assets/heart_gray.svg';
-
-    } else {
-        fighterHearts[0].src = 'assets/heart_gray.svg';
-        fighterHearts[1].src = 'assets/heart_gray.svg';
-        fighterHearts[2].src = 'assets/heart_gray.svg';
-
-        logText.innerHTML = message;
     }
 }
 function hipodogeFocus()
@@ -358,7 +349,6 @@ function attackSequence()
         button.addEventListener('click', (event) => {
             let target = event.target.id;
             playerSequence.push(playerAttacks.find(keyValue => keyValue['id'] === target)['type'])
-            console.log(playerSequence)
             button.disabled = true;
             button.classList.add('disable');
             attackLogging(target);
@@ -369,6 +359,10 @@ function attackSequence()
 function queryInAttack(attacksArray, query, id, output) {
     attacksArray.find(keyValue => keyValue[query] === id)[output]
 }
+const waterBorderColor = 'hsla(211, 25%, 23%, 1)';
+const earthBorderColor = 'hsla(187, 25%, 20%, 1)';
+const fireBorderColor = 'hsla(316, 19%, 21%, 1)';
+const normalBorderColor = 'hsla(230, 3%, 55%, 1)';
 function attackLogging(element)
 {
     const div = document.createElement("div");
@@ -382,7 +376,11 @@ function attackLogging(element)
 
     enemyLogImg.id = "enemyAttackLog_" + logCounter;
     enemyLogImg.src = "assets/question_mark.svg";
-    playerLogImg.style.border = '1px solid transparent';
+
+    // enemyLogImg.style.backgroundImage = `linear-gradient(var(--gray), var(--low_opacity_deep))`
+    enemyLogImg.style.backgroundColor = 'var(--gray)'
+    enemyLogImg.style.borderBottom = '3px solid var(--black)';
+    enemyLogImg.style.borderRight = '2.5px solid var(--black)';
 
 
     div.appendChild(playerLogImg);
@@ -391,22 +389,29 @@ function attackLogging(element)
 
     div.classList.add("log");
 
+    let playerBorderColor;
     let playerLogColor;
 
     if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'water') {
         playerLogColor = waterColor;
+        playerBorderColor = waterBorderColor;
 
     } else if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'earth') {
         playerLogColor = earthColor;
+        playerBorderColor = earthBorderColor;
 
     } else if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'fire') {
         playerLogColor = fireColor;
+        playerBorderColor = fireBorderColor;
     
     } else {
         playerLogColor = normalColor;
+        playerBorderColor = normalBorderColor;
     }
 
     playerLogImg.style.backgroundColor = playerLogColor;
+    playerLogImg.style.borderBottom = `3px solid ${playerBorderColor}`;
+    playerLogImg.style.borderRight = `2.5px solid ${playerBorderColor}`;
     logCounter ++;
 
 

@@ -7,7 +7,7 @@
     --low_opacity_purple:hsla(265,  89%, 78%, 0.2);
     --dark:              hsla(235,  14%, 15%,   1);
     --background_dark:   hsla(231,  15%, 18%,   1);
-    --black:             hsla(230,  14%, 25%,   1);
+    --black:             hsla(230,  16%, 25%,   1);
     --gray:              hsla(232,  14%, 31%,   1);
     --deep_blue:         hsla(225,  27%, 51%,   1);
     --low_opacity_deep:  hsla(225,  27%, 51%, 0.2);
@@ -142,7 +142,7 @@ button.issue:hover:active {
 #chooseAttack {
     width: 24rem;
     margin: auto;
-    grid-template-rows: 3rem 15rem 3rem 5rem 8rem 4rem;
+    grid-template-rows: 3rem 15rem 4rem 4rem 8rem 4rem;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center
@@ -332,17 +332,21 @@ span {
     transition: all 0.2s;
     box-sizing: border-box;
     align-items:center;
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
     border: 1px solid hsla(232,  14%, 31%,   1);
+    padding: 0.1rem;
 }
 .log img {
     width: 2rem;
     height: 2rem;
-    background-color: var(--dark);
-    border-radius: 5px;
+    border-radius: 7px;
     padding: 0.35rem;
     margin: 0.25rem;
+    /*
+    border-bottom: 2.5px solid hsla(225,  27%, 51%, 0.2);
+    background-image: linear-gradient(var(--gray), var(--low_opacity_deep));
+    */
 }
 @media (max-width: 414px) {
     main {
