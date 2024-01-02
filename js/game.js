@@ -71,22 +71,27 @@ const earthColor = 'hsla(177, 18%, 28%, 1)';
 const fireColor = 'hsla(316, 14%, 26%, 1)';
 const normalColor = 'hsla(231, 6%, 75%, 1)';
 
+const waterBorderColor = 'hsla(211, 25%, 23%, 1)';
+const earthBorderColor = 'hsla(187, 25%, 20%, 1)';
+const fireBorderColor = 'hsla(316, 19%, 21%, 1)';
+const normalBorderColor = 'hsla(230, 3%, 55%, 1)';
+
     // Reboot Game 🔄️
 const reload = document.getElementById('reboot_button');
 
 class Mokepon {
-    constructor(name, photo, life) {
+    constructor(name, photo, type) {
         this.name = name
         this.photo = photo
-        this.life = life
+        this.type = type
         this.attacks = []
     }
 }
 
 let mokepones = []
-let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 3);
-let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 3);
-let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 3);
+let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧');
+let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱');
+let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥');
 mokepones.push(hipodoge, capipepo, ratigueya)
 
 hipodoge.attacks.push(
@@ -112,7 +117,7 @@ ratigueya.attacks.push(
     {name: '🌋', id: 'volcano', img: 'assets/volcano.svg', class: 'fire', type: 'fuego 🔥'},
     {name: '❤️‍🔥', id: 'self-esteem', img: 'assets/self_estreem.svg', class: 'fire', type: 'fuego 🔥'}
 );
-
+let mokeponChecked;
 function start()
 {
     attackSection.style.display = 'none';
@@ -130,23 +135,16 @@ function start()
         `;
 
         cardsContainer.innerHTML += mokeponesAvailable;
-
-        hipodogeInput = document.getElementById('Hipodoge');
-        capipepoInput = document.getElementById('Capipepo');
-        ratigueyaInput = document.getElementById('Ratigueya');
-
-        hipodogeLabel = document.getElementById('Hipodoge_label');
-        capipepoLabel = document.getElementById('Capipepo_label');
-        ratigueyaLabel = document.getElementById('Ratigueya_label');
     });
 
-    playerPonButton.addEventListener('click', playerPonChoice);
+    const mokeponRadios = document.querySelectorAll("input[type=radio][name=myPon]");
 
-    hipodogeLabel.addEventListener('click', hipodogeFocus);
-    capipepoLabel.addEventListener('click', capipepoFocus);
-    ratigueyaLabel.addEventListener('click', ratigueyaFocus);
-
-    reload.addEventListener('click', reboot);
+    mokeponRadios.forEach((radio) => {
+        radio.addEventListener('click', (event) => {
+            mokeponChecked = event.target.id;
+            playerPonChoice();
+        })
+    });
 }
 function random(max, min)
 {
@@ -157,11 +155,6 @@ function battleInit()
     if (playerAttacks.length === playerSequence.length) {
         battle();
     }
-}
-function saveResults(playerIndex, enemyIndex) 
-{
-    indexPlayerAttack = enemyAttacks[playerIndex].type;
-    indexEnemyAttack = enemyAttacks[enemyIndex].type;
 }
 function battle()
 {
@@ -195,22 +188,18 @@ function battle()
         enemyAttackImgId.style.borderColor = enemyBorderLogColor;
 
         if (playerSequence[index] === enemySequence[index]) {
-            saveResults(index, index);
             gamesTie ++;
 
         } else if (playerSequence[index] === 'agua 💧' && enemySequence[index] === 'fuego 🔥') {
             divLog.style.border = '2px solid hsla(135,  94%, 65%, 0.8)';
-            saveResults(index, index);
             gamesWon++;
         
         } else if (playerSequence[index] === 'tierra 🌱' && enemySequence[index] === 'agua 💧') {
             divLog.style.border = '2px solid hsla(135,  94%, 65%, 0.8)';
-            saveResults(index, index);
             gamesWon++;
         
         } else if (playerSequence[index] === 'fuego 🔥' && enemySequence[index] === 'tierra 🌱') {
             divLog.style.border = '2px solid hsla(135,  94%, 65%, 0.8)';
-            saveResults(index, index);
             gamesWon++;
         
         } else {
@@ -228,16 +217,7 @@ function battle()
     } else { 
         message(logText, '¡Perdiste la batalla!', 'loose');
     }
-
-    /*
-        message(logText, 'Ha sido un empate.', 'tie');
-        message(logText, 'Acertaste el ataque.', 'win');
-        message(logText, 'El oponente acertó.', 'loose');
-
-        hurt(enemyLife, enemyhearts, 'Ganaste la batalla 🎊');
-        hurt(playerLife, playerhearts, 'Perdiste la batalla 😓');
-    */
-
+    reload.addEventListener('click', reboot);
     rebootSection.style.visibility = 'visible';
 }
 function message(id, message, activeClass)
@@ -261,68 +241,25 @@ function message(id, message, activeClass)
         id.classList.remove('win');
     }
 }
-function hipodogeFocus()
-{
-    hipodogeLabel.classList.add('hipodoge_focused');
-    capipepoLabel.classList.remove('capipepo_focused');
-    ratigueyaLabel.classList.remove('ratigueya_focused');
-    cleanMessages(choosePonInteractiveMessage, playerPonButton);
-}
-function capipepoFocus()
-{
-    hipodogeLabel.classList.remove('hipodoge_focused');
-    capipepoLabel.classList.add('capipepo_focused');
-    ratigueyaLabel.classList.remove('ratigueya_focused');
-    cleanMessages(choosePonInteractiveMessage, playerPonButton);
-}
-function ratigueyaFocus()
-{
-    hipodogeLabel.classList.remove('hipodoge_focused');
-    capipepoLabel.classList.remove('capipepo_focused');
-    ratigueyaLabel.classList.add('ratigueya_focused');
-    cleanMessages(choosePonInteractiveMessage, playerPonButton);
-}
 function playerPonChoice() // 👩🏻 Player choice
 {
+    chooseSection.style.display = 'none';
+    playerPon = mokepones.find(keyValue => keyValue['name'] === mokeponChecked)
     let you = ' (tú)'
 
-    if (hipodogeInput.checked == true) {
-        playerPonName.innerHTML = hipodogeInput.id + you;
-        playerPon = hipodogeInput.id;
-        selectionConfirmation = true;
+    playerPonName.innerHTML = playerPon.id + you;
+    playerPonAttackCard.src = playerPon.photo;
 
-        playerPonAttackCard.src = hipodoge.photo;
-        playerPonAttackCard.style.transform = "scaleX(-1)";
-
-    } else if (capipepoInput.checked == true) {
-        playerPonName.innerHTML = capipepoInput.id + you;
-        playerPon = capipepoInput.id;
-        selectionConfirmation = true;
-
-        playerPonAttackCard.src = capipepo.photo;
-
-    } else if (ratigueyaInput.checked == true) {
-        playerPonName.innerHTML = ratigueyaInput.id + you;
-        playerPon = ratigueyaInput.id;
-        selectionConfirmation = true;
-
-        playerPonAttackCard.src = ratigueya.photo;
-
-    } else {
-        choosePonInteractiveMessage.style.color = 'var(--red)';
-        choosePonInteractiveMessage.innerHTML = 'Selecciona tu mokepon';
-
-        issueStyle(playerPonButton);
+    if(playerPon.id === 'Hipodogue') {
+        layerPonAttackCard.style.transform = "scaleX(-1)";
     }
 
-    if (selectionConfirmation === true) {
-        enemyPonChoice();
-        playerAttacks = extractAttacks(playerPon);
-        showAttacks(playerAttacks);
-        displayAttackSection();
-        attackButtons = document.querySelectorAll('.elementButton');
-        attackSequence();
-    }
+    enemyPonChoice();
+    playerAttacks = extractAttacks(playerPon.name);
+    showAttacks(playerAttacks);
+    displayAttackSection();
+    attackButtons = document.querySelectorAll('.elementButton');
+    attackSequence();
 }
 function extractAttacks(pon)
 {
@@ -356,13 +293,10 @@ function attackSequence()
         })
     });
 }
-function queryInAttack(attacksArray, query, id, output) {
+function queryInAttack(attacksArray, query, id, output)
+{
     attacksArray.find(keyValue => keyValue[query] === id)[output]
 }
-const waterBorderColor = 'hsla(211, 25%, 23%, 1)';
-const earthBorderColor = 'hsla(187, 25%, 20%, 1)';
-const fireBorderColor = 'hsla(316, 19%, 21%, 1)';
-const normalBorderColor = 'hsla(230, 3%, 55%, 1)';
 function attackLogging(element)
 {
     const div = document.createElement("div");
@@ -377,11 +311,9 @@ function attackLogging(element)
     enemyLogImg.id = "enemyAttackLog_" + logCounter;
     enemyLogImg.src = "assets/question_mark.svg";
 
-    // enemyLogImg.style.backgroundImage = `linear-gradient(var(--gray), var(--low_opacity_deep))`
     enemyLogImg.style.backgroundColor = 'var(--gray)'
     enemyLogImg.style.borderBottom = '3px solid var(--black)';
     enemyLogImg.style.borderRight = '2.5px solid var(--black)';
-
 
     div.appendChild(playerLogImg);
     div.appendChild(enemyLogImg);
@@ -429,7 +361,6 @@ function cleanMessages(messageId, buttonId) {
 function displayAttackSection()
 {
     attackSection.style.display = 'grid';
-    chooseSection.style.display = 'none';
 }
 let enemyAttacksImg = [];
 let enemyAttacksClass = []
