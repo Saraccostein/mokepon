@@ -251,7 +251,7 @@ function playerPonChoice() // 👩🏻 Player choice
     playerPonAttackCard.src = playerPon.photo;
 
     if(playerPon.id === 'Hipodogue') {
-        layerPonAttackCard.style.transform = "scaleX(-1)";
+        playerPonAttackCard.style.transform = "scaleX(-1)";
     }
 
     enemyPonChoice();
