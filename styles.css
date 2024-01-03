@@ -417,11 +417,11 @@ input[type="radio"]:checked:hover:active + label {
         font-size: 1.3rem;
     }
     .ponLabel {
-        width: 50%;
+        width: 45%;
         margin: auto;
     }
     .ponLabel img{
-        width: 85%;
+        width: 80%;
         padding: 0;
     }
     #ponButtons {

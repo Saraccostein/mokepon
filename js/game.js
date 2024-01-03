@@ -245,9 +245,9 @@ function playerPonChoice() // 👩🏻 Player choice
 {
     chooseSection.style.display = 'none';
     playerPon = mokepones.find(keyValue => keyValue['name'] === mokeponChecked)
-    let you = ' (tú)'
+    let you = 'Tu '
 
-    playerPonName.innerHTML = playerPon.name + you;
+    playerPonName.innerHTML = you + playerPon.name;
     playerPonAttackCard.src = playerPon.photo;
 
     if(playerPon.id === 'Hipodogue') {
@@ -311,8 +311,8 @@ function attackLogging(element)
     enemyLogImg.id = "enemyAttackLog_" + logCounter;
     enemyLogImg.src = "assets/question_mark.svg";
 
-    enemyLogImg.style.backgroundColor = 'var(--gray)'
-    enemyLogImg.style.borderBottom = '3px solid var(--black)';
+    enemyLogImg.style.backgroundColor = 'var(--gray)';
+    enemyLogImg.style.borderBottom = '3px solid hsla(230,  20%, 25%,   0.9)';
 
     div.appendChild(playerLogImg);
     div.appendChild(enemyLogImg);
@@ -343,7 +343,6 @@ function attackLogging(element)
     playerLogImg.style.backgroundColor = playerLogColor;
     playerLogImg.style.borderBottom = `3px solid ${playerBorderColor}`;
     logCounter ++;
-
 
 }
 function issueStyle(element)
