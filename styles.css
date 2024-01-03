@@ -59,8 +59,11 @@ label[type="radio"] {
     box-sizing: border-box;
 }
 button {
-    background-color: transparent;
-    border: 1px solid var(--deep_blue);
+    background-color: hsla(225,  27%, 51%, 0.1);
+    border-top: 1px solid var(--deep_blue);
+    border-right: 1px solid var(--deep_blue);
+    border-bottom: 3px solid var(--deep_blue);
+    border-left: 1px solid var(--deep_blue);
     border-radius: 6px;
     padding: 0.5rem;
     color: var(--deep_blue);
@@ -69,12 +72,16 @@ button {
     transition: all 0.2s;
     box-sizing: border-box;
 }
+#reboot_button {
+    background-color: transparent;
+}
 button:hover {
     border-color: var(--primary_purple);
     color: var(--primary_purple);
 }
 button:active {
     background-color: var(--low_opacity_deep);
+    border-width: 1px;
 }
 button:hover:active {
     background-color: var(--low_opacity_purple);
@@ -100,6 +107,7 @@ button.issue:hover:active {
 }
 .ponLabel {
     border: 1px solid var(--deep_blue);
+    border-bottom-width: 4px;
     border-radius: 6px;
     padding: 0.5rem;
     color: var(--deep_blue);
@@ -113,10 +121,9 @@ button.issue:hover:active {
 .ponLabel img {
     width: 10rem;
     align-self: center;
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+/Edge */
-    user-select: none; /* Standard */
+}
+.ponLabel > img {
+    pointer-events: none;
 }
 #ponButtons {
     display: flex;
@@ -140,7 +147,7 @@ button.issue:hover:active {
 #chooseAttack {
     width: 24rem;
     margin: auto;
-    grid-template-rows: 3rem 15rem 4rem 4rem 8rem 4rem;
+    grid-template-rows: 3rem 15rem 4rem 4rem 9rem 4rem;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center
@@ -157,8 +164,12 @@ button.issue:hover:active {
     font-style: italic;
     font-size: 0.85rem;
 }
+.normal:hover {
+    background-color: var(--low_opacity_purple);
+}
 .fire:hover {
     border-color: var(--red);
+    background-color: var(--low_opacity_red);
 }
 .fire:hover:active {
     background-color: var(--low_opacity_red);
@@ -171,19 +182,35 @@ button.issue:hover:active {
 }
 .earth:hover {
     border-color: var(--green);
+    background-color: var(--low_opacity_green);
 }
 .earth:hover:active{
     background-color: var(--low_opacity_green);
 }
 .disable {
     border-color: var(--low_opacity_deep);
+    background-color: transparent;
+    border-width: 1px;
+    transition: opacity 3s;
+}
+.disable > img {
+    opacity: 0;
 }
 .disable:hover {
+    background-color: transparent;
     border-color: var(--gray);
+}
+.disable:active > img {
+    background-color: transparent;
+    border-color: var(--gray);
+    opacity: 0.5;
 }
 .disable:hover:active{
     border-color: var(--low_opacity_white);
-    background-color: transparent;
+    background-color: hsla(232,  10%, 31%,   0.1);
+}
+.disable:active {
+    background-color: hsla(232,  10%, 31%,   0.05);
 }
 
 /* Messages */
@@ -256,6 +283,7 @@ span {
 }
 .elementButton {
     width: 3rem;
+    margin-inline: 0.3rem;
 }
 .elementButton > img {
     pointer-events: none;
@@ -289,6 +317,9 @@ span {
     transition: all 0.05s;
     box-sizing: border-box;
 }
+.attackCard > img {
+    pointer-events: none;
+}
 .attackCard:active {
     border-width: 2px;
     font-weight: 600;
@@ -301,6 +332,7 @@ span {
 input[type="radio"]:checked + label {
     border-color: var(--yellow);
     color: var(--yellow);
+    border-width: 1px;
 }
 input[type="radio"]:hover + label {
     border-color: var(--primary_purple);
@@ -316,7 +348,7 @@ input[type="radio"]:checked:active + label {
 }
 input[type="radio"]:hover:active + label {
     background-color: var(--low_opacity_purple);
-    font-weight: 600;
+    border-width: 1px;
 }
 input[type="radio"]:checked:hover:active + label {
     background-color: var(--low_opacity_yellow);

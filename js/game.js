@@ -247,7 +247,7 @@ function playerPonChoice() // 👩🏻 Player choice
     playerPon = mokepones.find(keyValue => keyValue['name'] === mokeponChecked)
     let you = ' (tú)'
 
-    playerPonName.innerHTML = playerPon.id + you;
+    playerPonName.innerHTML = playerPon.name + you;
     playerPonAttackCard.src = playerPon.photo;
 
     if(playerPon.id === 'Hipodogue') {
@@ -313,7 +313,6 @@ function attackLogging(element)
 
     enemyLogImg.style.backgroundColor = 'var(--gray)'
     enemyLogImg.style.borderBottom = '3px solid var(--black)';
-    enemyLogImg.style.borderRight = '2.5px solid var(--black)';
 
     div.appendChild(playerLogImg);
     div.appendChild(enemyLogImg);
@@ -343,7 +342,6 @@ function attackLogging(element)
 
     playerLogImg.style.backgroundColor = playerLogColor;
     playerLogImg.style.borderBottom = `3px solid ${playerBorderColor}`;
-    playerLogImg.style.borderRight = `2.5px solid ${playerBorderColor}`;
     logCounter ++;
 
 
