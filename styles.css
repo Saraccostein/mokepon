@@ -176,6 +176,8 @@ button.issue:hover:active {
 }
 .water:hover {
     border-color: var(--cyan);
+    background-color: var(--low_opacity_cyan);
+
 }
 .water:hover:active {
     background-color: var(--low_opacity_cyan);

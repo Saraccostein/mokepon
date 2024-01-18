@@ -167,15 +167,15 @@ function battle()
         let enemyLogColor;
         let enemyBorderLogColor;
 
-        if (enemyAttacksClass[index] === 'water') {
+        if (enemySequence[index] === 'agua 💧') {
             enemyLogColor = waterColor;
             enemyBorderLogColor = waterBorderColor;
         
-        } else if (enemyAttacksClass[index] === 'earth') {
+        } else if (enemySequence[index] === 'tierra 🌱') {
             enemyLogColor = earthColor;
             enemyBorderLogColor = earthBorderColor;
         
-        } else if (enemyAttacksClass[index] === 'fire') {
+        } else if (enemySequence[index] === 'fuego 🔥') {
             enemyLogColor = fireColor;
             enemyBorderLogColor = fireBorderColor;
         
@@ -247,12 +247,12 @@ function playerPonChoice() // 👩🏻 Player choice
     playerPon = mokepones.find(keyValue => keyValue['name'] === mokeponChecked)
     let you = 'Tu '
 
-    playerPonName.innerHTML = you + playerPon.name;
-    playerPonAttackCard.src = playerPon.photo;
-
-    if(playerPon.id === 'Hipodogue') {
+    if(playerPon.name === 'Hipodoge') {
         playerPonAttackCard.style.transform = "scaleX(-1)";
     }
+
+    playerPonName.innerHTML = you + playerPon.name;
+    playerPonAttackCard.src = playerPon.photo;
 
     enemyPonChoice();
     playerAttacks = extractAttacks(playerPon.name);
@@ -323,15 +323,15 @@ function attackLogging(element)
     let playerBorderColor;
     let playerLogColor;
 
-    if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'water') {
+    if (playerAttacks.find(keyValue => keyValue['id'] === element)['type'] === 'agua 💧') {
         playerLogColor = waterColor;
         playerBorderColor = waterBorderColor;
 
-    } else if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'earth') {
+    } else if (playerAttacks.find(keyValue => keyValue['id'] === element)['type'] === 'tierra 🌱') {
         playerLogColor = earthColor;
         playerBorderColor = earthBorderColor;
 
-    } else if (playerAttacks.find(keyValue => keyValue['id'] === element)['class'] === 'fire') {
+    } else if (playerAttacks.find(keyValue => keyValue['id'] === element)['type'] === 'fuego 🔥') {
         playerLogColor = fireColor;
         playerBorderColor = fireBorderColor;
     
