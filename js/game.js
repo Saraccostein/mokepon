@@ -95,24 +95,24 @@ let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥');
 mokepones.push(hipodoge, capipepo, ratigueya)
 
 hipodoge.attacks.push(
-    {name: '⚗️', id: 'alembic', img: 'assets/fire_alembic.svg', class: 'fire', type: 'fuego 🔥'},
-    {name: '🛡️', id: 'shield', img: 'assets/earth_shield.svg', class: 'earth', type: 'tierra 🌱'},
+    {name: '💥', id: 'hit', img: 'assets/bomb.svg', class: 'fire', type: 'fuego 🔥'},
+    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'earth', type: 'tierra 🌱'},
     {name: '💧', id: 'water', img: 'assets/water.svg', class: 'water', type: 'agua 💧'},
     {name: '🌊', id: 'tsunami', img: 'assets/tsunami.svg', class: 'water', type: 'agua 💧'},
     {name: '❄️', id: 'snow', img: 'assets/snow.svg', class: 'water', type: 'agua 💧'}
 );
 
 capipepo.attacks.push(
-    {name: '⚗️', id: 'alembic', img: 'assets/water_alembic.svg', class: 'water', type: 'agua 💧'},
-    {name: '🛡️', id: 'shield', img: 'assets/fire_shield.svg', class: 'fire', type: 'fuego 🔥'},
+    {name: '💥', id: 'hit', img: 'assets/hit.svg', class: 'water', type: 'agua 💧'},
+    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'fire', type: 'fuego 🔥'},
     {name: '🌱', id: 'earth', img: 'assets/earth.svg', class: 'earth', type: 'tierra 🌱'},
     {name: '🍃', id: 'blades', img: 'assets/blades.svg', class: 'earth', type: 'tierra 🌱'},
     {name: '☘️', id: 'fortune', img: 'assets/fortune.svg', class: 'earth', type: 'tierra 🌱'}
 );
 
 ratigueya.attacks.push(
-    {name: '⚗️', id: 'alembic', img: 'assets/earth_alembic.svg', class: 'earth', type: 'tierra 🌱'},
-    {name: '🛡️', id: 'shield', img: 'assets/water_shield.svg', class: 'water', type: 'agua 💧'},
+    {name: '💥', id: 'hit', img: 'assets/hit.svg', class: 'earth', type: 'tierra 🌱'},
+    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'water', type: 'agua 💧'},
     {name: '🔥', id: 'fire', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
     {name: '🌋', id: 'volcano', img: 'assets/volcano.svg', class: 'fire', type: 'fuego 🔥'},
     {name: '❤️‍🔥', id: 'self-esteem', img: 'assets/self_estreem.svg', class: 'fire', type: 'fuego 🔥'}
