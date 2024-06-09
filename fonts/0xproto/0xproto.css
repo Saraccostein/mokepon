@@ -1,0 +1,17 @@
+@font-face {
+    font-family: '0xProto';
+    src: url('./0xProto-Regular.woff2') format('woff2'),
+         url('./0xProto-Regular.ttf') format('truetype');
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: '0xProto';
+    src: url('./0xProto-Italic.woff2') format('woff2'),
+         url('./0xProto-Italic.ttf') format('truetype');
+         
+    font-weight: normal;
+    font-style: italic;
+}

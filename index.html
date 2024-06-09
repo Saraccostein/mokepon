@@ -23,6 +23,8 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://api.fonts.coollabs.io" crossorigin>
+        <link href="https://api.fonts.coollabs.io/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+        <link href="https://api.fonts.coollabs.io/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="fonts/fonts.css" type="text/css">
         
         <title>Mokepon</title>
@@ -34,14 +36,19 @@
 
             <section id="choosePon">
                 <h2><span>1. </span>Selecciona tu mokepon</h2>
-
                 <div id="ponButtons"></div>
+            </section>
 
+            <section id="mapview">
+                <h2><span>2. </span>Recorre el mapa</h2>
+                <canvas id="map">
+
+                </canvas>
             </section>
 
             <section id="chooseAttack">
 
-                <h2><span>2. </span>Secuencia de ataques</h2>
+                <h2><span>3. </span>Secuencia de ataques</h2>
 
                 <div id="playerAttackCard" class="attackCard">
                     <!--🎴--> <img src="" id="playerPonAttackMode">

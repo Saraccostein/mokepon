@@ -40,6 +40,10 @@ let mokeponesAvailable;
 let playerAttacksButtons;
 let selectionConfirmation = false;
 
+/* 🗺️ Map */
+const mapviewSection = document.getElementById('mapview');
+const map = document.getElementById('map');
+
 /* 🥊 Attacks */
 let playerAttacks = 0;
 let enemyAttacks = [];
@@ -95,32 +99,33 @@ let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥');
 mokepones.push(hipodoge, capipepo, ratigueya)
 
 hipodoge.attacks.push(
-    {name: '💥', id: 'hit', img: 'assets/bomb.svg', class: 'fire', type: 'fuego 🔥'},
-    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'earth', type: 'tierra 🌱'},
-    {name: '💧', id: 'water', img: 'assets/water.svg', class: 'water', type: 'agua 💧'},
+    {name: '💣', id: 'hit', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
+    {name: '🛡️', id: 'shield', img: 'assets/blades.svg', class: 'earth', type: 'tierra 🌱'},
+    {name: '💧', id: 'water', img: 'assets/tsunami.svg', class: 'water', type: 'agua 💧'},
     {name: '🌊', id: 'tsunami', img: 'assets/tsunami.svg', class: 'water', type: 'agua 💧'},
-    {name: '❄️', id: 'snow', img: 'assets/snow.svg', class: 'water', type: 'agua 💧'}
+    {name: '❄️', id: 'snow', img: 'assets/tsunami.svg', class: 'water', type: 'agua 💧'}
 );
 
 capipepo.attacks.push(
-    {name: '💥', id: 'hit', img: 'assets/hit.svg', class: 'water', type: 'agua 💧'},
-    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'fire', type: 'fuego 🔥'},
-    {name: '🌱', id: 'earth', img: 'assets/earth.svg', class: 'earth', type: 'tierra 🌱'},
+    {name: '⚗️', id: 'hit', img: 'assets/tsunami.svg', class: 'water', type: 'agua 💧'},
+    {name: '🛡️', id: 'shield', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
+    {name: '🌱', id: 'earth', img: 'assets/blades.svg', class: 'earth', type: 'tierra 🌱'},
     {name: '🍃', id: 'blades', img: 'assets/blades.svg', class: 'earth', type: 'tierra 🌱'},
-    {name: '☘️', id: 'fortune', img: 'assets/fortune.svg', class: 'earth', type: 'tierra 🌱'}
+    {name: '☘️', id: 'fortune', img: 'assets/blades.svg', class: 'earth', type: 'tierra 🌱'}
 );
 
 ratigueya.attacks.push(
-    {name: '💥', id: 'hit', img: 'assets/hit.svg', class: 'earth', type: 'tierra 🌱'},
-    {name: '🛡️', id: 'shield', img: 'assets/shield.svg', class: 'water', type: 'agua 💧'},
+    {name: '💥', id: 'hit', img: 'assets/blades.svg', class: 'earth', type: 'tierra 🌱'},
+    {name: '🛡️', id: 'shield', img: 'assets/tsunami.svg', class: 'water', type: 'agua 💧'},
     {name: '🔥', id: 'fire', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
-    {name: '🌋', id: 'volcano', img: 'assets/volcano.svg', class: 'fire', type: 'fuego 🔥'},
-    {name: '❤️‍🔥', id: 'self-esteem', img: 'assets/self_estreem.svg', class: 'fire', type: 'fuego 🔥'}
+    {name: '🌋', id: 'volcano', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
+    {name: '❤️‍🔥', id: 'self-esteem', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'}
 );
 let mokeponChecked;
 function start()
 {
     attackSection.style.display = 'none';
+    mapviewSection.style.display = 'none';
     messagesSection.style.visibility = 'hidden';
     rebootSection.style.visibility = 'hidden';
 

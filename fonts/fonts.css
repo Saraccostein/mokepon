@@ -59,3 +59,29 @@
     src:url("./WhyteInktrapSemi-Mono/WhyteInktrapSemi-Mono-Regular.woff2") format("woff2"), 
         url("./WhyteInktrapSemi-Mono/WhyteInktrapSemi-Mono-Regular.woff") format("woff");
 }
+
+/* 0xProto */
+@font-face {
+    font-family: '0xProto';
+    font-weight: normal;
+    font-style: normal;
+    src:url('./0xproto/0xProto-Regular.woff2') format('woff2'),
+        url('./0xproto/0xProto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: '0xProto';
+    font-weight: normal;
+    font-style: italic;
+    src:url('./0xproto/0xProto-Italic.woff2') format('woff2'),
+        url('./0xproto/0xProto-Italic.ttf') format('truetype');
+}
+
+/* 0xProto */
+@font-face {
+    font-family: '0xPropo';
+    font-weight: normal;
+    font-style: normal;
+    src:url('./0xpropo/0xPropo-Medium.woff2') format('woff2'),
+        url('./0xpropo/0xPropo-Medium.ttf') format('truetype');
+}
