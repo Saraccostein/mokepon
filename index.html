@@ -41,9 +41,14 @@
 
             <section id="mapview">
                 <h2><span>2. </span>Recorre el mapa</h2>
-                <canvas id="map">
+                <canvas id="map"></canvas>
 
-                </canvas>
+                <button id="up_arrow_button" onmousedown="moveUp()" onmouseup="stopPon()"><div class="arrow_button" id="up_arrow"></div></button>
+                <article id="arrow_buttons_container">
+                        <button id="left_arrow_button" onmousedown="moveLeft()" onmouseup="stopPon()"><div class="arrow_button" id="left_arrow"></div></button>
+                        <button id="down_arrow_button" onmousedown="moveDown()" onmouseup="stopPon()"><div class="arrow_button" id="down_arrow"></div></button>                    
+                        <button id="right_arrow_button" onmousedown="moveRight()" onmouseup="stopPon()"><div class="arrow_button" id="right_arrow"></div></button>
+                </article>
             </section>
 
             <section id="chooseAttack">

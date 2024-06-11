@@ -147,6 +147,49 @@ button.issue:hover:active {
     color: var(--orange);
 }
 
+/* Map Section */
+#mapview {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#map {
+    border-radius: 0.4em;
+    border: 2px solid var(--deep_blue);
+    margin-bottom: 1em;
+}
+.arrow_button {
+    width: 1.5em;
+    height: 1.6em;
+}
+#right_arrow {
+    transition: all 0.2s;
+    background-image: url('./assets/right_arrow.svg');
+    background-repeat: no-repeat;
+    margin: 0.2em;
+}
+#left_arrow {
+    transition: all 0.2s;
+    background-image: url('./assets/left_arrow.svg');
+    background-repeat: no-repeat;
+    margin: 0.2em;
+}
+#down_arrow {
+    transition: all 0.2s;
+    background-image: url('./assets/down_arrow.svg');
+    background-repeat: no-repeat;
+    margin: 0.2em;
+}
+#up_arrow {
+    transition: all 0.2s;
+    background-image: url('./assets/up_arrow.svg');
+    background-repeat: no-repeat;
+    margin: 0.2em;
+}
+#arrow_buttons_container {
+    margin-top: 0.4em;
+}
+
 /* chooseAttack Section */
 
 #chooseAttack {

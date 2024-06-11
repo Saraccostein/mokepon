@@ -43,6 +43,7 @@ let selectionConfirmation = false;
 /* 🗺️ Map */
 const mapviewSection = document.getElementById('mapview');
 const map = document.getElementById('map');
+let canva = map.getContext('2d');
 
 /* 🥊 Attacks */
 let playerAttacks = 0;
@@ -84,18 +85,26 @@ const normalBorderColor = 'hsla(230, 3%, 55%, 1)';
 const reload = document.getElementById('reboot_button');
 
 class Mokepon {
-    constructor(name, photo, type) {
+    constructor(name, photo, type, icon) {
         this.name = name
         this.photo = photo
         this.type = type
         this.attacks = []
+        this.x = 375
+        this.y = 270
+        this.width = 80
+        this.height = 80
+        this.mapPhoto = new Image()
+        this.mapPhoto.src = icon
+        this.xSpeed = 0
+        this.ySpeed = 0
     }
 }
 
 let mokepones = []
-let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧');
-let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱');
-let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥');
+let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png');
+let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png');
+let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png');
 mokepones.push(hipodoge, capipepo, ratigueya)
 
 hipodoge.attacks.push(
@@ -125,7 +134,9 @@ let mokeponChecked;
 function start()
 {
     attackSection.style.display = 'none';
+
     mapviewSection.style.display = 'none';
+
     messagesSection.style.visibility = 'hidden';
     rebootSection.style.visibility = 'hidden';
 
@@ -262,7 +273,10 @@ function playerPonChoice() // 👩🏻 Player choice
     enemyPonChoice();
     playerAttacks = extractAttacks(playerPon.name);
     showAttacks(playerAttacks);
-    displayAttackSection();
+    // attackSection.style.display = 'grid';
+    mapviewSection.style.display = 'flex';
+    mapInit();
+
     attackButtons = document.querySelectorAll('.elementButton');
     attackSequence();
 }
@@ -360,10 +374,6 @@ function cleanMessages(messageId, buttonId) {
     messageId.innerHTML = '';
     buttonId.classList.remove('issue')
 }
-function displayAttackSection()
-{
-    attackSection.style.display = 'grid';
-}
 let enemyAttacksImg = [];
 let enemyAttacksClass = []
 function enemyPonChoice()  // 👤 Enemy Choice
@@ -395,3 +405,144 @@ function reboot()
 {
     location.reload();
 }
+function printCanvas() {
+    playerPon.x = playerPon.x + playerPon.xSpeed
+    playerPon.y = playerPon.y + playerPon.ySpeed
+    canva.clearRect(0, 0, map.width, map.height);
+    canva.drawImage(
+        backgroundMap,
+        0,
+        0,
+        map.width,
+        map.height
+    );
+    canva.drawImage(
+        playerPon.mapPhoto,
+        playerPon.x,
+        playerPon.y,
+        playerPon.mapPhoto.width * 0.35,
+        playerPon.mapPhoto.height * 0.35
+    );
+}
+const speed = 7;
+
+function moveLeft() {
+    playerPon.xSpeed = -speed;
+    printCanvas()
+}
+function moveDown() {
+    playerPon.ySpeed = +speed;
+    printCanvas()
+}
+function moveUp() {
+    playerPon.ySpeed = -speed;
+    printCanvas()
+}
+function moveRight() {
+    playerPon.xSpeed = +speed;
+    printCanvas()
+}
+function stopPon() {
+    playerPon.xSpeed = 0;
+    playerPon.ySpeed = 0;
+    
+arrowLeftButton.style.borderColor = 'hsla(225,  27%, 51%,   1)'
+arrowLeft.style.backgroundImage = 'url("./assets/left_arrow.svg")'
+
+arrowDownButton.style.borderColor = 'hsla(225,  27%, 51%,   1)'
+arrowDown.style.backgroundImage = 'url("./assets/down_arrow.svg")'
+
+arrowUpButton.style.borderColor = 'hsla(225,  27%, 51%,   1)'
+arrowUp.style.backgroundImage = 'url("./assets/up_arrow.svg")'
+
+arrowRightButton.style.borderColor = 'hsla(225,  27%, 51%,   1)'
+arrowRight.style.backgroundImage = 'url("./assets/right_arrow.svg")'
+}
+
+function arrowLeftHover() {
+    arrowLeftButton.style.borderColor = 'hsla(265,  89%, 78%,   1)'
+    arrowLeft.style.backgroundImage = 'url("./assets/left_arrow_purple.svg")'
+}
+function arrowDownHover() {
+    arrowDownButton.style.borderColor = 'hsla(265,  89%, 78%,   1)'
+    arrowDown.style.backgroundImage = 'url("./assets/down_arrow_purple.svg")'
+}
+function arrowUpHover() {
+    arrowUpButton.style.borderColor = 'hsla(265,  89%, 78%,   1)'
+    arrowUp.style.backgroundImage = 'url("./assets/up_arrow_purple.svg")'
+}
+function arrowRightHover() {
+    arrowRightButton.style.borderColor = 'hsla(265,  89%, 78%,   1)'
+    arrowRight.style.backgroundImage = 'url("./assets/right_arrow_purple.svg")'
+}
+
+function keyDown(event) {
+
+    switch (event.key) {
+        case 'ArrowLeft':
+        case "a":
+        case "A":
+            arrowLeftHover()
+            moveLeft();
+        break;
+
+        case 'ArrowDown':
+        case "s":
+        case "S":
+            arrowDownHover()
+            moveDown();
+        break;
+
+        case 'ArrowUp':
+        case "w":
+        case "W":
+            arrowUpHover()
+            moveUp();
+        break;
+
+        case 'ArrowRight':
+        case "d":
+        case "D":
+            arrowRightHover()
+            moveRight();
+        break;
+
+    default:
+        break;
+    }
+}
+
+let intervalo
+
+const arrowLeftButton = document.getElementById('left_arrow_button');
+const arrowDownButton = document.getElementById('down_arrow_button');
+const arrowUpButton = document.getElementById('up_arrow_button');
+const arrowRightButton = document.getElementById('right_arrow_button');
+
+const arrowLeft = document.getElementById('left_arrow');
+const arrowDown = document.getElementById('down_arrow');
+const arrowUp = document.getElementById('up_arrow');
+const arrowRight = document.getElementById('right_arrow');
+
+arrowLeftButton.addEventListener('mouseover', arrowLeftHover);
+arrowLeftButton.addEventListener('mouseout', stopPon);
+
+arrowDownButton.addEventListener('mouseover', arrowDownHover);
+arrowDownButton.addEventListener('mouseout', stopPon);
+
+arrowUpButton.addEventListener('mouseover', arrowUpHover);
+arrowUpButton.addEventListener('mouseout', stopPon);
+
+arrowRightButton.addEventListener('mouseover', arrowRightHover);
+arrowRightButton.addEventListener('mouseout', stopPon);
+
+function mapInit() {
+    map.width = 600;
+    map.height = 450;
+    interval = setInterval(printCanvas, 50);
+
+    window.addEventListener('keydown', keyDown); 
+    window.addEventListener('keyup', stopPon);
+}
+let backgroundMap = new Image();
+backgroundMap.src = '../assets/mokemap.png';
