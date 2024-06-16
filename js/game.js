@@ -45,11 +45,11 @@ const mapviewSection = document.getElementById('mapview');
 const map = document.getElementById('map');
 let canva = map.getContext('2d');
 let searchingHeight;
-let mapWitdh = window.innerWidth - 20;
-const maxMapWitdh = 620
+let mapWitdh = window.innerWidth - 30;
+const maxMapWitdh = 650
 
 if (mapWitdh > maxMapWitdh) {
-    mapWitdh = maxMapWitdh - 20
+    mapWitdh = maxMapWitdh
 }
 searchingHeight = mapWitdh * 600 / 800;
 
@@ -96,13 +96,15 @@ const normalBorderColor = 'hsla(230, 3%, 55%, 1)';
 const reload = document.getElementById('reboot_button');
 
 class Mokepon {
-    constructor(name, photo, type, icon, x = 375, y = 270) {
+    constructor(name, photo, type, icon, originalX, originalY) {
         this.name = name
         this.photo = photo
         this.type = type
         this.attacks = []
-        this.x = x
-        this.y = y
+        this.originalX = originalX;
+        this.originalY = originalY;
+        this.x = (originalX / 800) * map.width;
+        this.y = (originalY / 600) * map.height;
         this.width = 80
         this.height = 80
         this.mapPhoto = new Image()
@@ -110,27 +112,32 @@ class Mokepon {
         this.xSpeed = 0
         this.ySpeed = 0
     }
-    printPon() { 
+    printPon() {
+        const scaleFactor = map.width / 550;
         canva.drawImage(
             this.mapPhoto,
             this.x,
             this.y,
-            this.mapPhoto.width * 0.35,
-            this.mapPhoto.height * 0.35
+            this.mapPhoto.width * scaleFactor * 0.35,
+            this.mapPhoto.height * scaleFactor * 0.35
         );
+    }
+    updatePosition() {
+        this.x = (this.originalX / 800) * map.width;
+        this.y = (this.originalY / 600) * map.height;
     }
 }
 
 let mokepones = []
-let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 110, 320);
-let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 375, 270);
-let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 78, 70);
+let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 145, 420);
+let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 497, 355);
+let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 100, 90);
 mokepones.push(hipodoge, capipepo, ratigueya)
 
 let enemies = []
-let hipodogeEnemy = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 110, 320);
-let capipepoEnemy = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 375, 270);
-let ratigueyaEnemy = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 78, 70);
+let hipodogeEnemy = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 145, 420);
+let capipepoEnemy = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 497, 355);
+let ratigueyaEnemy = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 100, 90);
 enemies.push(hipodogeEnemy, capipepoEnemy, ratigueyaEnemy)
 
 hipodoge.attacks.push(
@@ -440,6 +447,7 @@ function printCanvas() {
     );
     for (let index = 0; index < enemies.length; index++) {
         if (playerPon.name !== enemies[index].name) {
+            enemies[index].updatePosition();
             enemies[index].printPon();
             checkCollision(enemies[index]);
         }
@@ -607,11 +615,6 @@ function mapInit() {
 
     window.addEventListener('keydown', keyDown); 
     window.addEventListener('keyup', stopPon);
-
-    const controls = document.querySelectorAll('.move_buttons');
-    controls.forEach((control) => {
-        control.addEventListener('mousedown',()=>move(control.id))
-    })
 }
 let backgroundMap = new Image();
 backgroundMap.src = '../assets/mokemap.png';
