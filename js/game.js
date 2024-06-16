@@ -44,6 +44,17 @@ let selectionConfirmation = false;
 const mapviewSection = document.getElementById('mapview');
 const map = document.getElementById('map');
 let canva = map.getContext('2d');
+let searchingHeight;
+let mapWitdh = window.innerWidth - 20;
+const maxMapWitdh = 620
+
+if (mapWitdh > maxMapWitdh) {
+    mapWitdh = maxMapWitdh - 20
+}
+searchingHeight = mapWitdh * 600 / 800;
+
+map.width = mapWitdh;
+map.height = searchingHeight;
 
 /* 🥊 Attacks */
 let playerAttacks = 0;
@@ -85,13 +96,13 @@ const normalBorderColor = 'hsla(230, 3%, 55%, 1)';
 const reload = document.getElementById('reboot_button');
 
 class Mokepon {
-    constructor(name, photo, type, icon) {
+    constructor(name, photo, type, icon, x = 375, y = 270) {
         this.name = name
         this.photo = photo
         this.type = type
         this.attacks = []
-        this.x = 375
-        this.y = 270
+        this.x = x
+        this.y = y
         this.width = 80
         this.height = 80
         this.mapPhoto = new Image()
@@ -99,13 +110,28 @@ class Mokepon {
         this.xSpeed = 0
         this.ySpeed = 0
     }
+    printPon() { 
+        canva.drawImage(
+            this.mapPhoto,
+            this.x,
+            this.y,
+            this.mapPhoto.width * 0.35,
+            this.mapPhoto.height * 0.35
+        );
+    }
 }
 
 let mokepones = []
-let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png');
-let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png');
-let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png');
+let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 110, 320);
+let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 375, 270);
+let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 78, 70);
 mokepones.push(hipodoge, capipepo, ratigueya)
+
+let enemies = []
+let hipodogeEnemy = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 110, 320);
+let capipepoEnemy = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 375, 270);
+let ratigueyaEnemy = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 78, 70);
+enemies.push(hipodogeEnemy, capipepoEnemy, ratigueyaEnemy)
 
 hipodoge.attacks.push(
     {name: '💣', id: 'hit', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
@@ -149,7 +175,6 @@ function start()
             <p>${mokepon.name}</p>
         </label>
         `;
-
         cardsContainer.innerHTML += mokeponesAvailable;
     });
 
@@ -270,10 +295,8 @@ function playerPonChoice() // 👩🏻 Player choice
     playerPonName.innerHTML = you + playerPon.name;
     playerPonAttackCard.src = playerPon.photo;
 
-    enemyPonChoice();
     playerAttacks = extractAttacks(playerPon.name);
     showAttacks(playerAttacks);
-    // attackSection.style.display = 'grid';
     mapviewSection.style.display = 'flex';
     mapInit();
 
@@ -376,12 +399,11 @@ function cleanMessages(messageId, buttonId) {
 }
 let enemyAttacksImg = [];
 let enemyAttacksClass = []
-function enemyPonChoice()  // 👤 Enemy Choice
+function enemyPonChoice(pon)  // 👤 Enemy Choice
 {
-    let randomNum = random(mokepones.length -1, 0)
-    enemyPon = mokepones[randomNum].name;
+    enemyPon = pon.name;
     enemyPonName.innerHTML = enemyPon;
-    enemyPonAttackCard.src = mokepones[randomNum].photo;
+    enemyPonAttackCard.src = pon.photo;
 
     if (enemyPon === 'Ratigueya') {
         enemyPonAttackCard.style.transform = "scaleX(-1)";
@@ -391,7 +413,6 @@ function enemyPonChoice()  // 👤 Enemy Choice
 
     let array = [];
     for (let index = 0; index < enemyAttacks.length; index++) {
-
         array.push(enemyAttacks[index].id);
     }
     let ids = array.sort(()=>Math.random()-0.5);
@@ -405,6 +426,7 @@ function reboot()
 {
     location.reload();
 }
+let printedEnemies = [];
 function printCanvas() {
     playerPon.x = playerPon.x + playerPon.xSpeed
     playerPon.y = playerPon.y + playerPon.ySpeed
@@ -416,13 +438,13 @@ function printCanvas() {
         map.width,
         map.height
     );
-    canva.drawImage(
-        playerPon.mapPhoto,
-        playerPon.x,
-        playerPon.y,
-        playerPon.mapPhoto.width * 0.35,
-        playerPon.mapPhoto.height * 0.35
-    );
+    for (let index = 0; index < enemies.length; index++) {
+        if (playerPon.name !== enemies[index].name) {
+            enemies[index].printPon();
+            checkCollision(enemies[index]);
+        }
+    }
+    playerPon.printPon()
 }
 const speed = 7;
 
@@ -526,23 +548,96 @@ const arrowRight = document.getElementById('right_arrow');
 
 arrowLeftButton.addEventListener('mouseover', arrowLeftHover);
 arrowLeftButton.addEventListener('mouseout', stopPon);
+arrowLeftButton.addEventListener('mousedown', moveLeft);
+arrowLeftButton.addEventListener('mouseup', stopPon);
+arrowLeftButton.addEventListener('touchstart', function(event) {
+    event.preventDefault();
+    arrowLeftHover();
+    moveLeft();
+});
+arrowLeftButton.addEventListener('touchend', function(event) {
+    event.preventDefault();
+    stopPon();
+});
 
 arrowDownButton.addEventListener('mouseover', arrowDownHover);
 arrowDownButton.addEventListener('mouseout', stopPon);
+arrowDownButton.addEventListener('mousedown', moveDown);
+arrowDownButton.addEventListener('mouseup', stopPon);
+arrowDownButton.addEventListener('touchstart', function(event) {
+    event.preventDefault();
+    arrowDownHover();
+    moveDown();
+});
+arrowDownButton.addEventListener('touchend', function(event) {
+    event.preventDefault();
+    stopPon();
+});
 
 arrowUpButton.addEventListener('mouseover', arrowUpHover);
 arrowUpButton.addEventListener('mouseout', stopPon);
+arrowUpButton.addEventListener('mousedown', moveUp);
+arrowUpButton.addEventListener('mouseup', stopPon);
+arrowUpButton.addEventListener('touchstart', function(event) {
+    event.preventDefault();
+    arrowUpHover();
+    moveUp();
+});
+arrowUpButton.addEventListener('touchend', function(event) {
+    event.preventDefault();
+    stopPon();
+});
 
 arrowRightButton.addEventListener('mouseover', arrowRightHover);
 arrowRightButton.addEventListener('mouseout', stopPon);
+arrowRightButton.addEventListener('mousedown', moveRight);
+arrowRightButton.addEventListener('mouseup', stopPon);
+arrowRightButton.addEventListener('touchstart', function(event) {
+    event.preventDefault();
+    arrowRightHover();
+    moveRight();
+});
+arrowRightButton.addEventListener('touchend', function(event) {
+    event.preventDefault();
+    stopPon();
+});
 
 function mapInit() {
-    map.width = 600;
-    map.height = 450;
     interval = setInterval(printCanvas, 50);
 
     window.addEventListener('keydown', keyDown); 
     window.addEventListener('keyup', stopPon);
+
+    const controls = document.querySelectorAll('.move_buttons');
+    controls.forEach((control) => {
+        control.addEventListener('mousedown',()=>move(control.id))
+    })
 }
 let backgroundMap = new Image();
 backgroundMap.src = '../assets/mokemap.png';
+
+function checkCollision(enemy) {
+    const enemyPonTop = enemy.y;
+    const enemyPonBottom = enemy.y + enemy.height;
+    const enemyPonRight = enemy.x + enemy.width;
+    const enemyPonLeft = enemy.x;
+
+    const playerPonTop = playerPon.y;
+    const playerPonBottom = playerPon.y + playerPon.height;
+    const playerPonRight = playerPon.x + playerPon.width;
+    const playerPonLeft = playerPon.x;
+
+    if (playerPonBottom < enemyPonTop || 
+        playerPonTop > enemyPonBottom || 
+        playerPonRight < enemyPonLeft || 
+        playerPonLeft > enemyPonRight
+    ) {
+        return
+    }
+
+    stopPon();
+    clearInterval(interval)
+    attackSection.style.display = 'grid';
+    mapviewSection.style.display = 'none';
+    enemyPonChoice(enemy)
+}
