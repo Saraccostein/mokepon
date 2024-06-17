@@ -617,18 +617,20 @@ function mapInit() {
     window.addEventListener('keyup', stopPon);
 }
 let backgroundMap = new Image();
-backgroundMap.src = '../assets/mokemap.png';
+backgroundMap.src = './assets/mokemap.png';
 
 function checkCollision(enemy) {
-    const enemyPonTop = enemy.y;
-    const enemyPonBottom = enemy.y + enemy.height;
-    const enemyPonRight = enemy.x + enemy.width;
-    const enemyPonLeft = enemy.x;
+    const margin = 10;
 
-    const playerPonTop = playerPon.y;
-    const playerPonBottom = playerPon.y + playerPon.height;
-    const playerPonRight = playerPon.x + playerPon.width;
-    const playerPonLeft = playerPon.x;
+    const enemyPonTop = enemy.y + margin;
+    const enemyPonBottom = enemy.y + enemy.height - margin;
+    const enemyPonRight = enemy.x + enemy.width - margin;
+    const enemyPonLeft = enemy.x + margin;
+
+    const playerPonTop = playerPon.y + margin;
+    const playerPonBottom = playerPon.y + playerPon.height - margin;
+    const playerPonRight = playerPon.x + playerPon.width - margin;
+    const playerPonLeft = playerPon.x + margin;
 
     if (playerPonBottom < enemyPonTop || 
         playerPonTop > enemyPonBottom || 
