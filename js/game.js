@@ -95,8 +95,12 @@ const normalBorderColor = 'hsla(230, 3%, 55%, 1)';
     // Reboot Game 🔄️
 const reload = document.getElementById('reboot_button');
 
+/* backEnd */
+let playerId = null;
+
 class Mokepon {
-    constructor(name, photo, type, icon, originalX, originalY) {
+    constructor(name, photo, type, icon, originalX, originalY, id = null) {
+        this.id = id
         this.name = name
         this.photo = photo
         this.type = type
@@ -128,17 +132,13 @@ class Mokepon {
     }
 }
 
-let mokepones = []
+let mokepones = [];
 let hipodoge = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 145, 420);
 let capipepo = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 497, 355);
 let ratigueya = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 100, 90);
 mokepones.push(hipodoge, capipepo, ratigueya)
 
-let enemies = []
-let hipodogeEnemy = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 145, 420);
-let capipepoEnemy = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 497, 355);
-let ratigueyaEnemy = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 100, 90);
-enemies.push(hipodogeEnemy, capipepoEnemy, ratigueyaEnemy)
+let mokenemies = [];
 
 hipodoge.attacks.push(
     {name: '💣', id: 'hit', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
@@ -164,8 +164,7 @@ ratigueya.attacks.push(
     {name: '❤️‍🔥', id: 'self-esteem', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'}
 );
 let mokeponChecked;
-function start()
-{
+function start() {
     attackSection.style.display = 'none';
 
     mapviewSection.style.display = 'none';
@@ -192,6 +191,18 @@ function start()
             mokeponChecked = event.target.id;
             playerPonChoice();
         })
+    });
+
+    joinTheGame()
+}
+function joinTheGame() {
+    fetch('http://localhost:8080/join').then(function (res) {
+        console.log(res);
+        if (res.ok) {
+            res.text().then(function (response) {
+                playerId = response
+            })
+        }
     });
 }
 function random(max, min)
@@ -302,6 +313,8 @@ function playerPonChoice() // 👩🏻 Player choice
     playerPonName.innerHTML = you + playerPon.name;
     playerPonAttackCard.src = playerPon.photo;
 
+    selectingMokepon(playerPon);
+
     playerAttacks = extractAttacks(playerPon.name);
     showAttacks(playerAttacks);
     mapviewSection.style.display = 'flex';
@@ -309,6 +322,17 @@ function playerPonChoice() // 👩🏻 Player choice
 
     attackButtons = document.querySelectorAll('.elementButton');
     attackSequence();
+}
+function selectingMokepon(pon) {
+    fetch(`http://localhost:8080/mokepon/${playerId}`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            mokepon: pon.name
+        })
+    })
 }
 function extractAttacks(pon)
 {
@@ -445,14 +469,44 @@ function printCanvas() {
         map.width,
         map.height
     );
-    for (let index = 0; index < enemies.length; index++) {
-        if (playerPon.name !== enemies[index].name) {
-            enemies[index].updatePosition();
-            enemies[index].printPon();
-            checkCollision(enemies[index]);
-        }
-    }
     playerPon.printPon()
+    sendPosition(playerPon.x, playerPon.y)
+    mokenemies.forEach(function (mokepon) {
+        mokepon.printPon();
+    })
+}
+let mokenemy = null;
+function sendPosition(x, y) {
+    fetch(`http://localhost:8080/mokepon/${playerId}/coordinates`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            x,
+            y
+        })
+    })
+    .then(function (res) {
+        if (res.ok) {
+            res.json()
+            .then(function({ enemies }) {
+                mokenemies = enemies.map(function (enemy) {
+                    const mokename = enemy.mokepon.name || '';
+                    if (mokename === 'Hipodoge') {
+                        mokenemy = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 145, 420);
+                    } else if (mokename === 'Capipepo') {
+                        mokenemy = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 497, 355);
+                    } else if (mokename === 'Ratigueya') {
+                        mokenemy = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 100, 90);
+                    }
+                    mokenemy.x = enemy.x;
+                    mokenemy.y = enemy.y;
+                    return mokenemy
+                })
+            })
+        }   
+    })
 }
 const speed = 7;
 
@@ -562,7 +616,7 @@ arrowLeftButton.addEventListener('touchstart', function(event) {
     event.preventDefault();
     arrowLeftHover();
     moveLeft();
-});
+}, { passive: true });
 arrowLeftButton.addEventListener('touchend', function(event) {
     event.preventDefault();
     stopPon();
@@ -576,7 +630,7 @@ arrowDownButton.addEventListener('touchstart', function(event) {
     event.preventDefault();
     arrowDownHover();
     moveDown();
-});
+}, { passive: true });
 arrowDownButton.addEventListener('touchend', function(event) {
     event.preventDefault();
     stopPon();
@@ -590,7 +644,7 @@ arrowUpButton.addEventListener('touchstart', function(event) {
     event.preventDefault();
     arrowUpHover();
     moveUp();
-});
+}, { passive: true });
 arrowUpButton.addEventListener('touchend', function(event) {
     event.preventDefault();
     stopPon();
@@ -604,7 +658,7 @@ arrowRightButton.addEventListener('touchstart', function(event) {
     event.preventDefault();
     arrowRightHover();
     moveRight();
-});
+}, { passive: true });
 arrowRightButton.addEventListener('touchend', function(event) {
     event.preventDefault();
     stopPon();
@@ -613,14 +667,14 @@ arrowRightButton.addEventListener('touchend', function(event) {
 function mapInit() {
     interval = setInterval(printCanvas, 50);
 
-    window.addEventListener('keydown', keyDown); 
+    window.addEventListener('keydown', keyDown, { passive: true }); 
     window.addEventListener('keyup', stopPon);
 }
 let backgroundMap = new Image();
 backgroundMap.src = './assets/mokemap.png';
 
 function checkCollision(enemy) {
-    const margin = 10;
+    const margin = 20;
 
     const enemyPonTop = enemy.y + margin;
     const enemyPonBottom = enemy.y + enemy.height - margin;

@@ -7,5 +7,10 @@
   },
   "author": "Maro Saracco",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "short-uuid": "^5.2.0"
+  }
 }
