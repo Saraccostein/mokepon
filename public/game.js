@@ -164,6 +164,11 @@ ratigueya.attacks.push(
     {name: '🌋', id: 'volcano', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'},
     {name: '❤️‍🔥', id: 'self-esteem', img: 'assets/fire_dracula.svg', class: 'fire', type: 'fuego 🔥'}
 );
+
+const waterAttackImg = 'assets/tsunami.svg';
+const earthAttackImg = 'assets/blades.svg';
+const fireAttackImg = 'assets/fire_dracula.svg';
+
 let mokeponChecked;
 function start() {
     attackSection.style.display = 'none';
@@ -197,7 +202,7 @@ function start() {
     joinTheGame()
 }
 function joinTheGame() {
-    fetch('http://localhost:8080/join').then(function (res) {
+    fetch('http://192.168.100.4:8080/join').then(function (res) {
         console.log(res);
         if (res.ok) {
             res.text().then(function (response) {
@@ -224,14 +229,17 @@ function battle() {
         if (enemySequence[index] === 'agua 💧') {
             enemyLogColor = waterColor;
             enemyBorderLogColor = waterBorderColor;
+            enemyAttackImgId.src = waterAttackImg;
         
         } else if (enemySequence[index] === 'tierra 🌱') {
             enemyLogColor = earthColor;
             enemyBorderLogColor = earthBorderColor;
+            enemyAttackImgId.src = earthAttackImg;
         
         } else if (enemySequence[index] === 'fuego 🔥') {
             enemyLogColor = fireColor;
             enemyBorderLogColor = fireBorderColor;
+            enemyAttackImgId.src = fireAttackImg;
         
         } else {
             enemyLogColor = normalColor;
@@ -319,7 +327,7 @@ function playerPonChoice() // 👩🏻 Player choice
     attackSequence();
 }
 function selectingMokepon(pon) {
-    fetch(`http://localhost:8080/mokepon/${playerId}`, {
+    fetch(`http://192.168.100.4:8080/mokepon/${playerId}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -365,7 +373,7 @@ function attackSequence()
     });
 }
 function sendAttacks () {
-    fetch(`http://localhost:8080/mokepon/${playerId}/attacks`, {
+    fetch(`http://192.168.100.4:8080/mokepon/${playerId}/attacks`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -377,7 +385,7 @@ function sendAttacks () {
     interval = setInterval(getAttacks, 50);
 }
 function getAttacks () {
-    fetch(`http://localhost:8080/mokepon/${enemyId}/attacks`)
+    fetch(`http://192.168.100.4:8080/mokepon/${enemyId}/attacks`)
     .then(response => {
         if (response.ok) {
             return response.json();
@@ -470,17 +478,6 @@ function enemyPonChoice(pon)  // 👤 Enemy Choice
     }
 
     enemyAttacks = extractAttacks(enemyPon);
-
-    let array = [];
-    for (let index = 0; index < enemyAttacks.length; index++) {
-        array.push(enemyAttacks[index].id);
-    }
-    let ids = array.sort(()=>Math.random()-0.5);
-    for (let index = 0; index < enemyAttacks.length; index++) {
-        enemyAttacksImg.push(enemyAttacks.find(keyValue => keyValue['id'] === ids[index])['img'])
-        enemySequence.push(enemyAttacks.find(keyValue => keyValue['id'] === ids[index])['type'])
-        enemyAttacksClass.push(enemyAttacks.find(keyValue => keyValue['id'] === ids[index])['class'])
-    }
 }
 function reboot() 
 {
@@ -506,7 +503,7 @@ function printCanvas() {
     })
 }
 function sendPosition(x, y) {
-    fetch(`http://localhost:8080/mokepon/${playerId}/coordinates`, {
+    fetch(`http://192.168.100.4:8080/mokepon/${playerId}/coordinates`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
