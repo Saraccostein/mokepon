@@ -95,26 +95,27 @@ const normalBorderColor = 'hsla(230, 3%, 55%, 1)';
     // Reboot Game 🔄️
 const reload = document.getElementById('reboot_button');
 
-/* backEnd */
+/* backEnd */   
 let playerId = null;
+let enemyId = null;
 
 class Mokepon {
     constructor(name, photo, type, icon, originalX, originalY, id = null) {
-        this.id = id
-        this.name = name
-        this.photo = photo
-        this.type = type
-        this.attacks = []
+        this.id = id;
+        this.name = name;
+        this.photo = photo;
+        this.type = type;
+        this.attacks = [];
         this.originalX = originalX;
         this.originalY = originalY;
         this.x = (originalX / 800) * map.width;
         this.y = (originalY / 600) * map.height;
-        this.width = 80
-        this.height = 80
-        this.mapPhoto = new Image()
-        this.mapPhoto.src = icon
-        this.xSpeed = 0
-        this.ySpeed = 0
+        this.width = 80;
+        this.height = 80;
+        this.mapPhoto = new Image();
+        this.mapPhoto.src = icon;
+        this.xSpeed = 0;
+        this.ySpeed = 0;
     }
     printPon() {
         const scaleFactor = map.width / 550;
@@ -209,14 +210,8 @@ function random(max, min)
 {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-function battleInit()
-{
-    if (playerAttacks.length === playerSequence.length) {
-        battle();
-    }
-}
-function battle()
-{
+function battle() {
+    clearInterval(interval)
     for (let index = 0; index < playerSequence.length; index++) {
 
         const divLog = document.getElementById('log_' + index);
@@ -362,8 +357,42 @@ function attackSequence()
             button.disabled = true;
             button.classList.add('disable');
             attackLogging(target);
-            battleInit();
+
+            if (playerSequence.length === 5) {
+                sendAttacks();
+            }
         })
+    });
+}
+function sendAttacks () {
+    fetch(`http://localhost:8080/mokepon/${playerId}/attacks`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            attacks: playerSequence
+        })
+    })
+    interval = setInterval(getAttacks, 50);
+}
+function getAttacks () {
+    fetch(`http://localhost:8080/mokepon/${enemyId}/attacks`)
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('No se pudo conectar con el servidor');
+    })
+    .then(({ attacks }) => {
+        if (attacks.length === 5) {
+            enemySequence = attacks;
+            battle();
+        }
+    })
+    .catch(error => {
+        console.error('Error obteniendo ataques:', error);
+        // Manejar el error aquí (por ejemplo, mostrar un mensaje al usuario)
     });
 }
 function queryInAttack(attacksArray, query, id, output)
@@ -473,9 +502,9 @@ function printCanvas() {
     sendPosition(playerPon.x, playerPon.y)
     mokenemies.forEach(function (mokepon) {
         mokepon.printPon();
+        checkCollision(mokepon);
     })
 }
-let mokenemy = null;
 function sendPosition(x, y) {
     fetch(`http://localhost:8080/mokepon/${playerId}/coordinates`, {
         method: 'post',
@@ -487,18 +516,19 @@ function sendPosition(x, y) {
             y
         })
     })
-    .then(function (res) {
-        if (res.ok) {
-            res.json()
+    .then(function (response) {
+        if (response.ok) {
+            response.json()
             .then(function({ enemies }) {
+                console.log(enemies);
                 mokenemies = enemies.map(function (enemy) {
                     const mokename = enemy.mokepon.name || '';
                     if (mokename === 'Hipodoge') {
-                        mokenemy = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 145, 420);
+                        mokenemy = new  Mokepon('Hipodoge', 'assets/hipodoge.png', 'agua 💧', 'assets/hipodoge_face.png', 145, 420, enemy.id);
                     } else if (mokename === 'Capipepo') {
-                        mokenemy = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 497, 355);
+                        mokenemy = new  Mokepon('Capipepo', 'assets/capipepo.png', 'tierra 🌱', 'assets/capipepo_face.png', 497, 355, enemy.id);
                     } else if (mokename === 'Ratigueya') {
-                        mokenemy = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 100, 90);
+                        mokenemy = new  Mokepon('Ratigueya', 'assets/ratigueya.png', 'fuego 🔥', 'assets/ratigueya_face.png', 100, 90, enemy.id);
                     }
                     mokenemy.x = enemy.x;
                     mokenemy.y = enemy.y;
@@ -508,8 +538,8 @@ function sendPosition(x, y) {
         }   
     })
 }
+let mokenemy = null;
 const speed = 7;
-
 function moveLeft() {
     playerPon.xSpeed = -speed;
     printCanvas()
@@ -596,8 +626,6 @@ function keyDown(event) {
     }
 }
 
-let intervalo
-
 const arrowLeftButton = document.getElementById('left_arrow_button');
 const arrowDownButton = document.getElementById('down_arrow_button');
 const arrowUpButton = document.getElementById('up_arrow_button');
@@ -665,7 +693,7 @@ arrowRightButton.addEventListener('touchend', function(event) {
 });
 
 function mapInit() {
-    interval = setInterval(printCanvas, 50);
+    mapInterval = setInterval(printCanvas, 50);
 
     window.addEventListener('keydown', keyDown, { passive: true }); 
     window.addEventListener('keyup', stopPon);
@@ -674,7 +702,7 @@ let backgroundMap = new Image();
 backgroundMap.src = './assets/mokemap.png';
 
 function checkCollision(enemy) {
-    const margin = 20;
+    const margin = 10;
 
     const enemyPonTop = enemy.y + margin;
     const enemyPonBottom = enemy.y + enemy.height - margin;
@@ -695,8 +723,12 @@ function checkCollision(enemy) {
     }
 
     stopPon();
-    clearInterval(interval)
+    clearInterval(mapInterval)
+
+    enemyId = enemy.id;
+
     attackSection.style.display = 'grid';
     mapviewSection.style.display = 'none';
     enemyPonChoice(enemy)
 }
+let mapInterval;
